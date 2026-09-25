@@ -44,7 +44,7 @@ function banner(html) {
 }
 function explain(err) {
   const msg = String(err?.message || err);
-  if (/does not exist|NOT_FOUND|not-found/i.test(msg) || err?.code === "not-found")
+  if (/does not exist|NOT_FOUND|not-found|client is offline|has not been used|is disabled/i.test(msg) || ["not-found", "unavailable"].includes(err?.code))
     return `Firestore 데이터베이스가 아직 없어요. <a href="https://console.firebase.google.com/project/notipet-d479d/firestore" target="_blank" rel="noopener">Firebase 콘솔</a>에서 만들어 주세요.`;
   if (err?.code === "permission-denied")
     return "권한이 없어요. Firestore 보안 규칙이 아직 적용되지 않았을 수 있어요.";
