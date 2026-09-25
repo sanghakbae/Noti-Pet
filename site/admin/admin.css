@@ -53,13 +53,18 @@ input[type=email], input[type=text], input[type=search], input[type=password] { 
 input:focus { outline: 2px solid rgba(92, 132, 246, .3); border-color: var(--blue); }
 
 .table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 900px; }
-th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid var(--line); vertical-align: middle; overflow: hidden; text-overflow: ellipsis; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 1000px; }
+table.wide { min-width: 1320px; }
+th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 th { background: #f6f8fc; color: var(--muted); font-size: 12px; font-weight: 700; white-space: nowrap; }
 tbody tr:hover { background: #fafbff; }
 td.remark { text-align: left; }
 td.key, dd.key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; letter-spacing: -.01em; white-space: nowrap; }
 td.acts { white-space: nowrap; }
+/* 표가 넓어 가로로 밀려도 작업 버튼은 오른쪽에 붙어 있게 */
+tr > :last-child { position: sticky; right: 0; background: #fff; box-shadow: -6px 0 8px -6px rgba(30, 50, 110, .12); }
+thead tr > :last-child { background: #f6f8fc; }
+tbody tr:hover > :last-child { background: #fafbff; }
 td.acts .btn + .btn { margin-left: 2px; }
 td.empty { color: var(--muted); padding: 24px; }
 tr.revoked-row td { color: #9aa1b2; }

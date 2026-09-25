@@ -285,9 +285,9 @@ function paintOrders() {
   body.innerHTML = list.map((o) => `
     <tr data-id="${esc(o.id)}">
       <td>${fmt(o.createdAt)}</td>
-      <td class="mono-ish">${esc(o.email)}</td>
-      <td>${esc(o.name) || "—"}</td>
-      <td class="remark">${esc(o.memo) || ""}</td>
+      <td title="${esc(o.email)}">${esc(o.email)}</td>
+      <td title="${esc(o.name)}">${esc(o.name) || "—"}</td>
+      <td class="remark" title="${esc(o.memo)}">${esc(o.memo) || ""}</td>
       <td>${o.status === "issued" ? '<span class="pill good">발급됨</span>' : '<span class="pill new">새 신청</span>'}</td>
       <td>${o.status === "issued"
         ? `<button type="button" class="btn sm" data-act="show">키 보기</button>`
@@ -321,9 +321,9 @@ function paintHistory() {
   body.innerHTML = list.length ? list.map((l) => `
     <tr data-id="${esc(l.id)}" class="${l.revoked ? "revoked-row" : ""}">
       <td>${fmt(l.issuedAt)}</td>
-      <td>${esc(l.email)}</td>
+      <td title="${esc(l.email)}">${esc(l.email)}</td>
       <td class="key">${esc(l.key)}</td>
-      <td class="remark">${esc(l.memo || "")}</td>
+      <td class="remark" title="${esc(l.memo || "")}">${esc(l.memo || "")}</td>
       <td>${l.revoked ? '<span class="pill bad">폐기</span>' : '<span class="pill good">사용 중</span>'}</td>
       <td>${l.mailedAt ? `${fmt(l.mailedAt)}${l.mailCount > 1 ? ` · ${l.mailCount}회` : ""}` : '<span class="muted">안 보냄</span>'}</td>
       <td class="acts">
