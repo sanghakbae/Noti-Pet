@@ -19,6 +19,8 @@ const F = { walk: 0, air: 12, land: 13, happy: 14, talk: 22, sleep: 30 };
 const PETS = [
   ["cat", "고양이"], ["dog", "강아지"], ["bunny", "토끼"], ["chick", "병아리"], ["panda", "판다"],
   ["bear", "곰돌이"], ["fox", "여우"], ["penguin", "펭귄"], ["hamster", "햄스터"], ["pig", "아기돼지"],
+  // 2.2.0에서 추가 (2점대 전용)
+  ["koala", "코알라", true], ["frog", "개구리", true], ["sheep", "아기양", true], ["redPanda", "레서판다", true], ["dino", "아기공룡", true],
 ];
 const sheet = (id) => `url(img/pets/${id}-sheet.webp)`;
 const preload = (id) => { const i = new Image(); i.src = `img/pets/${id}-sheet.webp`; };
@@ -226,12 +228,12 @@ setInterval(paintClock, 20000);
 
 // ---------- 펫 고르기 ----------
 const grid = $("#pet-grid");
-PETS.forEach(([id, name]) => {
+PETS.forEach(([id, name, isNew]) => {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "pet-card";
   btn.setAttribute("aria-pressed", String(id === pet.id));
-  btn.innerHTML = `<div class="sprite"></div><b>${name}</b>`;
+  btn.innerHTML = `<div class="sprite"></div><b>${name}</b>${isNew ? '<span class="new-badge">NEW · 2점대</span>' : ""}`;
   const sp = btn.firstElementChild;
   sp.style.backgroundImage = `url(img/pets/${id}.webp)`;
   sp.style.backgroundSize = "100% 100%";
@@ -292,11 +294,13 @@ const REPO = "sanghakbae/Noti-Pet";
 const DL = (v) => `https://github.com/${REPO}/releases/download/v${v}/NotiPet-${v}.dmg`;
 // GitHub에 연결되지 않을 때 보여 줄 목록
 const FALLBACK = [
+  { v: "2.2.0", date: "2026-09-25", url: DL("2.2.0"), size: 1609260 },
   { v: "2.1.0", date: "2026-09-25", url: DL("2.1.0"), size: 1665460 },
   { v: "1.3.0", date: "2026-09-24", url: DL("1.3.0"), size: 1618356 },
   { v: "1.2.0", date: "2026-09-24", url: DL("1.2.0"), size: 1632413 },
 ];
 const WHAT = {
+  "2.2.0": "새 펫 5종: 코알라·개구리·아기양·레서판다·아기공룡 (2점대 전용)",
   "2.1.0": "키가 구매자 이메일에 묶여요. 입력 창에서 이메일과 키를 함께 넣어요",
   "1.3.0": "토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요",
   "1.2.0": "첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색)",
