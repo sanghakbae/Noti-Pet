@@ -1,0 +1,4 @@
+# 비밀키와 발급 기록은 절대 올리지 않아요 (--dir 로 이 폴더를 쓸 때를 대비)
+secret.key
+issued.csv
+NotiPetLicenseSecret.swift
