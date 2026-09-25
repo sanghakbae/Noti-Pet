@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sanghakbae/Noti-Pet/releases/latest"><img src="https://img.shields.io/github/v/release/sanghakbae/Noti-Pet?label=%EB%82%B4%EB%A0%A4%EB%B0%9B%EA%B8%B0&style=for-the-badge&color=5C84F6" alt="내려받기"></a>
+  <a href="#-버전별-내려받기"><img src="https://img.shields.io/github/v/release/sanghakbae/Noti-Pet?label=%EB%82%B4%EB%A0%A4%EB%B0%9B%EA%B8%B0&style=for-the-badge&color=5C84F6" alt="내려받기"></a>
   <img src="https://img.shields.io/badge/macOS-13%2B-1E2A4A?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 13 이상">
-  <img src="https://img.shields.io/badge/%EA%B0%80%EA%B2%A9-%EB%AC%B4%EB%A3%8C-34C759?style=for-the-badge" alt="무료">
+  <img src="https://img.shields.io/badge/1%EC%A0%90%EB%8C%80-%EB%AC%B4%EB%A3%8C-34C759?style=for-the-badge" alt="1점대 무료">
 </p>
 
 <br>
@@ -37,11 +37,26 @@
 
 <img src="images/steps.png" alt="1 응용 프로그램 폴더로 옮기기, 2 그래도 열기, 3 전체 디스크 접근 권한 켜기">
 
-1. **[최신 버전 내려받기](https://github.com/sanghakbae/Noti-Pet/releases/latest)** → DMG를 열고 NotiPet을 **응용 프로그램** 폴더로 끌어다 놓아요.
+1. **[내려받기](#-버전별-내려받기)** → DMG를 열고 NotiPet을 **응용 프로그램** 폴더로 끌어다 놓아요.
 2. NotiPet을 열면 경고가 떠요. 닫고 **시스템 설정 › 개인정보 보호 및 보안** 맨 아래에서 **그래도 열기**를 눌러요. *(처음 한 번만)*
 3. 펫이 "권한이 필요해요"라고 말하면 **말풍선을 누르고**, **전체 디스크 접근 권한**에서 NotiPet을 켜요. 몇 초 뒤 "이제 알림이 보여요!" 하면 끝!
 
+> 🔑 **2.0부터는 키가 필요해요.** 처음 열면 키 입력 창이 떠요. 키는 Threads [@baedorphin](https://www.threads.com/@baedorphin)에게 **DM**으로 받을 수 있어요.<br>
+> 키 없이 쓰고 싶다면 **1점대 버전**을 받으세요. 계속 무료예요.
+
 > 🔒 **안심하세요.** NotiPet은 macOS가 저장해 둔 알림을 **읽기만** 해요. 아무것도 바꾸지 않고, 인터넷에 연결하지도 않아요.
+
+<br>
+
+## 📦 버전별 내려받기
+
+| 버전 | 가격 | 바뀐 점 | 내려받기 |
+| :-- | :-- | :-- | :-- |
+| **2.0.0** (최신) | 🔑 키 필요 | 키 입력 창이 생겼어요. 나머지 기능은 1.3.0과 같아요 | [NotiPet-2.0.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.0.0/NotiPet-2.0.0.dmg) |
+| 1.3.0 | 🆓 무료 | 토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요 | [NotiPet-1.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.3.0/NotiPet-1.3.0.dmg) |
+| 1.2.0 | 🆓 무료 | 첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색) | [NotiPet-1.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.2.0/NotiPet-1.2.0.dmg) |
+
+모든 버전과 바뀐 내용은 [Releases](https://github.com/sanghakbae/Noti-Pet/releases)에서도 볼 수 있어요.
 
 <br>
 
@@ -98,6 +113,13 @@
 ## 🙋 자주 묻는 질문
 
 <details>
+<summary><b>키는 어디서 받아요? 꼭 있어야 해요?</b></summary>
+<br>
+<b>2.0부터</b> 키가 있어야 실행돼요. 키는 Threads <a href="https://www.threads.com/@baedorphin">@baedorphin</a>에게 DM으로 받을 수 있고, 키 입력 창의 <b>키 받기</b> 버튼을 눌러도 돼요. 한 번 넣으면 다시 묻지 않아요.<br>
+키 없이 쓰고 싶다면 <a href="#-버전별-내려받기">1점대 버전</a>을 받으세요. 계속 무료예요.
+</details>
+
+<details>
 <summary><b>말풍선이 알림 배너보다 조금 늦게 떠요</b></summary>
 <br>
 macOS가 알림을 저장하는 데 몇 초 걸려서 배너보다 <b>약 5초</b> 늦게 떠요. 정상이에요.
@@ -134,7 +156,7 @@ macOS가 알림을 저장하는 데 몇 초 걸려서 배너보다 <b>약 5초</
 <summary><b>업데이트 · 삭제는 어떻게 해요?</b></summary>
 <br>
 
-- **업데이트:** 새 DMG로 응용 프로그램 폴더의 NotiPet을 덮어써요. 전체 디스크 접근 권한을 다시 켜야 할 수 있어요.
+- **업데이트:** 새 DMG로 응용 프로그램 폴더의 NotiPet을 덮어써요. 전체 디스크 접근 권한을 다시 켜야 할 수 있어요. 1점대에서 2.0으로 올리면 키를 한 번 넣어야 해요.
 - **삭제:** 메뉴 › 종료 → NotiPet을 휴지통으로 → 전체 디스크 접근 권한 목록에서 **−** 로 빼기. 설정까지 지우려면 터미널에서 `defaults delete kr.sanghak.notipet`
 </details>
 
