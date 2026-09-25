@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NotiPet 관리자</title>
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="admin.css">
+  <script type="module" src="admin.js"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../"><img src="../img/icon.png" alt="" width="26" height="26">NotiPet 관리자</a>
+    <nav class="tabs" id="tabs" hidden>
+      <button type="button" data-tab="orders">구매 신청 <span class="count" id="count-orders"></span></button>
+      <button type="button" data-tab="issue">키 발급</button>
+      <button type="button" data-tab="history">발급 이력 <span class="count" id="count-history"></span></button>
+      <button type="button" data-tab="settings">설정</button>
+    </nav>
+    <div class="account" id="account" hidden>
+      <span id="who"></span>
+      <button type="button" class="btn sm" id="logout">로그아웃</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="login" id="login" hidden>
+      <img src="../img/icon.png" alt="" width="64" height="64">
+      <h1>NotiPet 관리자</h1>
+      <p>키 발급과 발급 이력은 관리자만 볼 수 있어요.</p>
+      <button type="button" class="btn primary" id="login-btn">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/></svg>
+        Google로 로그인
+      </button>
+      <p class="error" id="login-error" hidden></p>
+    </section>
+
+    <div class="banner" id="banner" hidden></div>
+
+    <!-- 구매 신청 -->
+    <section class="panel" id="tab-orders" hidden>
+      <div class="toolbar">
+        <h2>구매 신청</h2>
+        <label class="check"><input type="checkbox" id="orders-new-only" checked> 발급 안 한 것만</label>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <colgroup><col style="width:150px"><col><col style="width:120px"><col><col style="width:90px"><col style="width:120px"></colgroup>
+          <thead><tr><th>신청 시각</th><th>이메일</th><th>이름</th><th>메모</th><th>상태</th><th>작업</th></tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 키 발급 -->
+    <section class="panel" id="tab-issue" hidden>
+      <h2>키 발급</h2>
+      <form class="issue-form" id="issue-form" novalidate>
+        <label>구매자 이메일 <b class="req">필수</b>
+          <input type="email" id="issue-email" placeholder="buyer@example.com" required autocomplete="off">
+          <span class="hint">같은 이메일이면 언제 발급해도 같은 키예요. 앱에서는 이 이메일과 키를 함께 넣어요.</span>
+        </label>
+        <label>메모
+          <input type="text" id="issue-memo" placeholder="입금자명, 결제 방법 등" autocomplete="off">
+        </label>
+        <div class="form-footer">
+          <span class="error" id="issue-error" hidden></span>
+          <button type="submit" class="btn primary" id="issue-btn">키 만들기</button>
+        </div>
+      </form>
+      <div class="result" id="issue-result" hidden></div>
+    </section>
+
+    <!-- 발급 이력 -->
+    <section class="panel" id="tab-history" hidden>
+      <div class="toolbar">
+        <h2>발급 이력</h2>
+        <input type="search" id="history-search" placeholder="이메일 · 키 · 메모 검색">
+        <button type="button" class="btn sm" id="export-csv">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <colgroup><col style="width:150px"><col><col style="width:430px"><col><col style="width:80px"><col style="width:190px"></colgroup>
+          <thead><tr><th>발급 시각</th><th>이메일</th><th>키</th><th>메모</th><th>상태</th><th>작업</th></tr></thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+      <div class="revoked" id="revoked" hidden>
+        <h3>앱에 넣을 폐기 목록</h3>
+        <p>폐기한 키는 다음 앱 버전부터 막혀요. 아래 줄을 <code>Sources/NotiPet/NotiPetLicense.swift</code>에 넣고 새 버전을 배포하세요.</p>
+        <pre id="revoked-code"></pre>
+        <button type="button" class="btn sm" id="copy-revoked">복사</button>
+      </div>
+    </section>
+
+    <!-- 설정 -->
+    <section class="panel" id="tab-settings" hidden>
+      <h2>비밀키</h2>
+      <p class="status" id="secret-status"></p>
+      <form class="issue-form" id="secret-form" novalidate>
+        <label>비밀키 파일 <span class="hint">이 맥의 <code>~/.notipet-keygen/secret.key</code> (Finder에서 ⌘⇧. 을 누르면 숨은 폴더가 보여요)</span>
+          <input type="file" id="secret-file">
+        </label>
+        <label>또는 64자리 값을 붙여 넣기
+          <input type="password" id="secret-text" placeholder="0123abcd…" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="form-footer">
+          <span class="error" id="secret-error" hidden></span>
+          <button type="submit" class="btn primary">비밀키 등록</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <div class="toast" id="toast" hidden></div>
+</body>
+</html>

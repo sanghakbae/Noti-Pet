@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NotiPet — 맥 알림을 귀여운 펫이 말풍선으로</title>
+  <meta name="description" content="맥에 오는 모든 알림을 귀여운 펫이 말풍선으로 알려 줘요. 펫 10종, 크기·색 조정, 말풍선을 누르면 바로 그 앱으로.">
+  <meta name="theme-color" content="#5C84F6">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NotiPet — 맥 알림을 귀여운 펫이 말풍선으로">
+  <meta property="og:description" content="화면 아래를 뛰어다니다가, 알림이 오면 깜짝 뛰어올라 말해 줘요.">
+  <meta property="og:image" content="https://notipet.sanghak.kr/img/og.png">
+  <meta property="og:url" content="https://notipet.sanghak.kr/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top"><img src="img/icon.png" alt="" width="32" height="32">NotiPet</a>
+    <nav class="nav-links">
+      <a href="#features">기능</a>
+      <a href="#pets">펫</a>
+      <a href="#install">설치</a>
+      <a href="#download">내려받기</a>
+      <a href="#buy">구매</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <a class="btn primary sm" href="#download">내려받기</a>
+  </header>
+
+  <main id="top">
+    <!-- 히어로: 왼쪽 소개, 오른쪽 움직이는 펫 -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span> macOS 메뉴바 앱</p>
+        <h1>맥에 오는 모든 알림을 <em>귀여운 펫</em>이 말풍선으로 알려 줘요</h1>
+        <p class="lead">화면 아래를 뛰어다니다가, 알림이 오면 깜짝 뛰어올라 말해 줘요. 말풍선을 누르면 알림을 보낸 앱이 바로 열려요.</p>
+        <div class="cta">
+          <a class="btn primary lg" id="cta-paid" href="#download" data-track="hero_paid">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>
+            <span>NotiPet <b data-latest-paid>2</b> 내려받기</span>
+          </a>
+          <a class="btn ghost lg" id="cta-free" href="#download" data-track="hero_free">무료 <b data-latest-free>1.3.0</b> 받기</a>
+        </div>
+        <ul class="chips">
+          <li>macOS 13 이상</li>
+          <li>Apple 실리콘 · Intel</li>
+          <li>펫 10종</li>
+          <li class="paid">2.0부터 유료 · 키 필요</li>
+        </ul>
+      </div>
+
+      <div class="stage" id="stage" aria-label="NotiPet이 동작하는 모습 미리 보기">
+        <div class="menubar"><span></span><span class="paw">🐾</span><span class="clock" id="clock">9:41</span></div>
+        <div class="win win-a"><i></i><i></i><i></i><b></b><b></b><b></b></div>
+        <div class="win win-b"><i></i><i></i><i></i><b></b><b></b></div>
+        <div class="pet-layer" id="pet-layer">
+          <button class="pet" id="pet" aria-label="펫 쓰다듬기"></button>
+        </div>
+        <div class="dock" id="dock"></div>
+        <p class="stage-tip">펫을 눌러 쓰다듬고, 말풍선을 눌러 보세요</p>
+      </div>
+    </section>
+
+    <!-- 기능 -->
+    <section class="section" id="features">
+      <h2 class="section-title">이런 걸 해요</h2>
+      <div class="cards four">
+        <article class="card">
+          <div class="art art-blue">
+            <div class="mini-noti" style="--c:#34C759">메시지</div>
+            <div class="mini-noti" style="--c:#E01E5A">슬랙</div>
+            <div class="mini-noti" style="--c:#0A84FF">메일</div>
+          </div>
+          <h3>모든 앱 알림</h3>
+          <p>메시지·카카오톡·슬랙·메일… 알림 센터를 거치면 다 받아요</p>
+        </article>
+        <article class="card">
+          <div class="art art-peach trio">
+            <img src="img/pets/bunny.webp" alt="" loading="lazy">
+            <img src="img/pets/cat.webp" alt="" loading="lazy">
+            <img src="img/pets/panda.webp" alt="" loading="lazy">
+          </div>
+          <h3>펫 10종</h3>
+          <p>고양이부터 아기돼지까지 마음에 드는 친구를 골라요</p>
+        </article>
+        <article class="card">
+          <div class="art art-lilac trio tint">
+            <img src="img/pets/cat.webp" alt="" loading="lazy" style="--h:150deg;--s:.8">
+            <img src="img/pets/cat.webp" alt="" loading="lazy" style="--h:0deg;--s:1">
+            <img src="img/pets/cat.webp" alt="" loading="lazy" style="--h:265deg;--s:.8">
+          </div>
+          <h3>크기·색 마음대로</h3>
+          <p>크기 50~200%, 색조·채도·밝기 펫마다 색을 따로 기억해요</p>
+        </article>
+        <article class="card">
+          <div class="art art-mint">
+            <div class="mini-bubble"><span style="--c:#34C759">메시지</span><b>엄마: 저녁 먹으러…</b></div>
+            <svg class="cursor" viewBox="0 0 22 32" aria-hidden="true"><path d="M1 1v25l7-6 5 11 5-2-5-11h9z"/></svg>
+          </div>
+          <h3>누르면 바로 그 앱</h3>
+          <p>말풍선을 누르면 알림 보낸 앱이 열려요</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 펫 고르기 + 색 바꾸기 -->
+    <section class="section" id="pets">
+      <h2 class="section-title">누구랑 지낼래요?</h2>
+      <p class="section-lead">누르면 위 화면의 펫이 그 친구로 바뀌어요. 앱에서는 <b>펫 설정</b> 창에서 종류·크기·색을 골라요.</p>
+      <div class="tuner">
+        <label>색조 <input type="range" id="hue" min="0" max="360" value="0"></label>
+        <label>채도 <input type="range" id="sat" min="0" max="200" value="100"></label>
+        <label>크기 <input type="range" id="size" min="50" max="200" value="100"></label>
+        <button class="btn ghost sm" id="random-color" type="button">🎲 무작위 색</button>
+        <button class="btn ghost sm" id="reset-color" type="button">처음대로</button>
+      </div>
+      <div class="pet-grid" id="pet-grid"></div>
+    </section>
+
+    <!-- 놀기 -->
+    <section class="section" id="play">
+      <h2 class="section-title">이렇게 놀아요</h2>
+      <div class="cards four">
+        <article class="card">
+          <div class="art art-pink"><img class="solo" src="img/pets/cat-happy.webp" alt="" loading="lazy"><span class="float-heart">♥</span><span class="float-heart b">♥</span></div>
+          <h3>쓰다듬기</h3><p>펫을 클릭</p>
+        </article>
+        <article class="card">
+          <div class="art art-blue"><img class="solo lift" src="img/pets/dog.webp" alt="" loading="lazy"><svg class="cursor top" viewBox="0 0 22 32" aria-hidden="true"><path d="M1 1v25l7-6 5 11 5-2-5-11h9z"/></svg></div>
+          <h3>들어서 옮기기</h3><p>끌어서 놓기 · 던지기 · 다른 모니터로도</p>
+        </article>
+        <article class="card">
+          <div class="art art-sage"><div class="mini-bubble closeable"><span style="--c:#0A84FF">메일</span><b>주간 보고서가 도착했어요</b><i>×</i></div></div>
+          <h3>말풍선 닫기</h3><p>× 또는 우클릭 · 마우스를 올리면 기다려요</p>
+        </article>
+        <article class="card">
+          <div class="art art-lilac"><img class="solo" src="img/pets/bunny-sleep.webp" alt="" loading="lazy"><span class="zzz">z<b>z</b><i>Z</i></span></div>
+          <h3>낮잠</h3><p>한가하면 꾸벅꾸벅</p>
+        </article>
+      </div>
+      <div class="split">
+        <img class="shot" src="img/settings-framed.png" alt="NotiPet 펫 설정 창" loading="lazy" width="680" height="517">
+        <ul class="checks">
+          <li><b>메뉴바 🐾</b>에서 최근 알림 다시 보기, 앱별 알림 무시하기</li>
+          <li><b>말풍선 잠시 끄기</b> — 회의·발표 중에 켜 두세요</li>
+          <li><b>활발함</b> 느긋하게 · 보통 · 신나게, <b>말풍선 시간</b> 4 · 7 · 12초</li>
+          <li><b>로그인 시 자동 실행</b> — 맥을 켜면 펫도 같이 출근</li>
+          <li>알림을 <b>읽기만</b> 해요. 알림 내용은 맥 밖으로 나가지 않아요</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 설치 -->
+    <section class="section" id="install">
+      <h2 class="section-title">설치는 4단계</h2>
+      <ol class="steps">
+        <li class="card">
+          <div class="art art-blue step-art">
+            <img class="app-icon" src="img/icon.png" alt="" loading="lazy"><span class="arrow">→</span><span class="folder">Applications</span>
+          </div>
+          <h3><span class="num">1</span>내려받아 옮기기</h3>
+          <p>DMG를 열고 NotiPet을 응용 프로그램 폴더로 끌어다 놓아요</p>
+        </li>
+        <li class="card">
+          <div class="art art-blue step-art">
+            <div class="mock-dialog"><b>보안</b><span>NotiPet이(가) 차단되었습니다.</span><em>그래도 열기</em></div>
+          </div>
+          <h3><span class="num">2</span>처음 한 번 허용</h3>
+          <p>시스템 설정 › 개인정보 보호 및 보안 아래쪽에서 [그래도 열기]</p>
+        </li>
+        <li class="card">
+          <div class="art art-gold step-art">
+            <div class="mock-dialog key"><b>NotiPet 키 입력</b><span class="field">you@example.com</span><span class="field mono">XXXXXX-XXXXXX-…</span></div>
+          </div>
+          <h3><span class="num">3</span>키 넣기 <small>2.0부터</small></h3>
+          <p>키를 받은 이메일과 48자 키를 넣어요. 1점대는 건너뛰어요</p>
+        </li>
+        <li class="card">
+          <div class="art art-blue step-art">
+            <div class="mock-toggles"><b>전체 디스크 접근 권한</b><span><img src="img/icon.png" alt="">NotiPet<i class="on"></i></span><span><em></em>터미널<i></i></span></div>
+          </div>
+          <h3><span class="num">4</span>알림 읽기 권한 켜기</h3>
+          <p>펫의 말풍선을 누르고 전체 디스크 접근 권한에서 켜요</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 내려받기 -->
+    <section class="section" id="download">
+      <h2 class="section-title">내려받기</h2>
+      <div class="price-notes">
+        <div class="note paid">
+          <b>🔑 2.0부터 유료예요</b>
+          <p>키가 있어야 실행돼요. 아래 <a href="#buy">구매 신청</a>에 <b>이메일 주소</b>를 남겨 주시면, 확인 후 그 이메일 전용 키를 보내 드려요.</p>
+        </div>
+        <div class="note free">
+          <b>🆓 1점대는 무료예요</b>
+          <p>키 없이 바로 쓸 수 있어요. 기능은 펫 10종·설정 창까지 다 들어 있어요.</p>
+        </div>
+      </div>
+      <form class="buy" id="buy" novalidate>
+        <div class="buy-head"><b>🛒 구매 신청</b><span>이메일을 남기면 확인 후 그 이메일로 키를 보내 드려요. 키는 그 이메일에서만 통해요.</span></div>
+        <div class="buy-fields">
+          <label><span>이메일 <b class="req">필수</b></span><input type="email" name="email" required placeholder="you@example.com" autocomplete="email" maxlength="254"></label>
+          <label><span>이름</span><input type="text" name="name" placeholder="입금자명" autocomplete="name" maxlength="100"></label>
+          <label class="grow"><span>메모</span><input type="text" name="memo" placeholder="문의 사항이 있으면 적어 주세요" maxlength="1000"></label>
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit" id="buy-btn">구매 신청</button>
+        </div>
+        <p class="buy-msg" id="buy-msg" role="status" hidden></p>
+      </form>
+      <div class="dl-list" id="dl-list" aria-live="polite">
+        <p class="dl-loading">버전 목록을 불러오는 중…</p>
+      </div>
+      <p class="dl-foot">모든 버전과 바뀐 내용은 <a href="https://github.com/sanghakbae/Noti-Pet/releases" target="_blank" rel="noopener">GitHub Releases</a>에서도 볼 수 있어요.</p>
+    </section>
+
+    <!-- 자주 묻는 질문 -->
+    <section class="section" id="faq">
+      <h2 class="section-title">자주 묻는 질문</h2>
+      <div class="faq">
+        <details>
+          <summary>키는 어떻게 받아요?</summary>
+          <p><a href="#buy">구매 신청</a>에 이메일 주소를 남겨 주세요. 확인 후 그 이메일 전용 48자 키를 보내 드려요. 앱을 처음 열면 뜨는 입력 창에 <b>이메일과 키를 함께</b> 넣으면 되고, 한 번 넣으면 다시 묻지 않아요.</p>
+        </details>
+        <details>
+          <summary>무료로 쓸 수는 없나요?</summary>
+          <p>1점대 버전은 키 없이 무료예요. <a href="#download">내려받기</a> 목록에서 1점대를 받으세요.</p>
+        </details>
+        <details>
+          <summary>말풍선이 알림 배너보다 조금 늦게 떠요</summary>
+          <p>macOS가 알림을 저장하는 데 몇 초 걸려서 배너보다 약 5초 늦게 떠요. 정상이에요.</p>
+        </details>
+        <details>
+          <summary>시스템 배너랑 말풍선이 둘 다 떠요</summary>
+          <p>배너는 macOS가 띄우는 거라 NotiPet이 끌 수 없어요. 펫 말풍선만 보고 싶다면 <b>시스템 설정 › 알림</b>에서 앱별 알림 스타일을 <b>없음</b>으로 바꾸고, <b>알림 센터에 표시</b>는 켜 두세요.</p>
+        </details>
+        <details>
+          <summary>어떤 앱의 알림만 안 와요</summary>
+          <p>시스템 설정 › 알림에서 그 앱 알림이 켜져 있는지, 메뉴 › 무시하는 앱에 들어 있지 않은지 확인해요. 앱 창 안에서만 뜨는 자체 팝업은 macOS 알림이 아니라서 받을 수 없어요.</p>
+        </details>
+        <details>
+          <summary>권한을 켰는데도 "권한이 필요해요"라고 해요</summary>
+          <p>전체 디스크 접근 권한 목록에서 NotiPet을 − 로 뺀 뒤 + 로 다시 추가하고, NotiPet을 껐다 켜 주세요. 업데이트한 뒤에도 이렇게 한 번 해 주면 돼요.</p>
+        </details>
+        <details>
+          <summary>업데이트 · 삭제는 어떻게 해요?</summary>
+          <p><b>업데이트:</b> 새 DMG로 응용 프로그램 폴더의 NotiPet을 덮어써요. 1점대에서 2.0 이상으로 올리면 키를 한 번 넣어야 해요. <b>삭제:</b> 메뉴 › 종료 → NotiPet을 휴지통으로 → 전체 디스크 접근 권한 목록에서 − 로 빼기. 설정까지 지우려면 터미널에서 <code>defaults delete kr.sanghak.notipet</code></p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="img/icon.png" alt="" width="48" height="48">
+    <p><b>NotiPet</b> · macOS 13 이상 · Apple 실리콘 / Intel</p>
+    <p>만든 사람 <a href="https://www.threads.com/@baedorphin" target="_blank" rel="noopener">@baedorphin</a> · 의견과 버그는 <a href="https://github.com/sanghakbae/Noti-Pet/issues" target="_blank" rel="noopener">Issues</a>로 알려 주세요 🐾</p>
+  </footer>
+</body>
+</html>
