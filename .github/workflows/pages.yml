@@ -25,6 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # 브라우저가 예전 스크립트·CSS를 쓰지 않도록 주소에 커밋 번호를 붙인다 (Cloudflare 브라우저 캐시 4시간)
+      - run: grep -rl '?v=dev' site | xargs sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

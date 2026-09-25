@@ -1,5 +1,5 @@
-import { app, SDK, isLocal } from "./firebase.js";
-import { normalizeEmail } from "./admin/license.js";
+import { app, SDK, isLocal } from "./firebase.js?v=dev";
+import { normalizeEmail } from "./admin/license.js?v=dev";
 
 const $ = (s, el = document) => el.querySelector(s);
 

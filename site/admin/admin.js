@@ -1,9 +1,9 @@
-import { app } from "../firebase.js";
+import { app } from "../firebase.js?v=dev";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, orderBy, onSnapshot, serverTimestamp, writeBatch, increment,
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-import { normalizeEmail, parseSecret, secretToHex, makeKey, secretCheck, keyPrefix } from "./license.js";
+import { normalizeEmail, parseSecret, secretToHex, makeKey, secretCheck, keyPrefix } from "./license.js?v=dev";
 
 const ADMIN = "totoriverce@gmail.com";
 // 지금 앱에 들어간 비밀키의 확인값 (keygen.py check-value). 다른 비밀키로 만든 키는 앱에서 안 통한다.
