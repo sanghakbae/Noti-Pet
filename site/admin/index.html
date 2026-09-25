@@ -56,19 +56,12 @@
 
     <!-- 키 발급 -->
     <section class="panel" id="tab-issue" hidden>
-      <h2>키 발급</h2>
-      <form class="issue-form" id="issue-form" novalidate>
-        <label>구매자 이메일 <b class="req">필수</b>
-          <input type="email" id="issue-email" placeholder="buyer@example.com" required autocomplete="off">
-          <span class="hint">같은 이메일이면 언제 발급해도 같은 키예요. 앱에서는 이 이메일과 키를 함께 넣어요.</span>
-        </label>
-        <label>메모
-          <input type="text" id="issue-memo" placeholder="입금자명, 결제 방법 등" autocomplete="off">
-        </label>
-        <div class="form-footer">
-          <span class="error" id="issue-error" hidden></span>
-          <button type="submit" class="btn primary" id="issue-btn">키 만들기</button>
-        </div>
+      <div class="toolbar"><h2>키 발급</h2><span class="hint">발급하면 구매자 이메일로 bae@sanghak.kr 명의의 키 메일이 바로 가요. 같은 이메일이면 언제 발급해도 같은 키예요.</span></div>
+      <form class="issue-row" id="issue-form" novalidate>
+        <input type="email" id="issue-email" class="f-email" placeholder="구매자 이메일 (필수)" aria-label="구매자 이메일 (필수)" required autocomplete="off">
+        <input type="text" id="issue-memo" class="f-memo" placeholder="메모 (입금자명, 결제 방법 등)" aria-label="메모" autocomplete="off">
+        <button type="submit" class="btn primary" id="issue-btn">키 만들기</button>
+        <span class="error" id="issue-error" hidden></span>
       </form>
       <div class="result" id="issue-result" hidden></div>
     </section>
@@ -82,8 +75,8 @@
       </div>
       <div class="table-wrap">
         <table>
-          <colgroup><col style="width:150px"><col><col style="width:430px"><col><col style="width:80px"><col style="width:190px"></colgroup>
-          <thead><tr><th>발급 시각</th><th>이메일</th><th>키</th><th>메모</th><th>상태</th><th>작업</th></tr></thead>
+          <colgroup><col style="width:140px"><col><col style="width:420px"><col><col style="width:76px"><col style="width:150px"><col style="width:220px"></colgroup>
+          <thead><tr><th>발급 시각</th><th>이메일</th><th>키</th><th>메모</th><th>상태</th><th>키 메일</th><th>작업</th></tr></thead>
           <tbody id="history-body"></tbody>
         </table>
       </div>

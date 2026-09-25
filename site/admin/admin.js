@@ -1,7 +1,7 @@
 import { app } from "../firebase.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, orderBy, onSnapshot, serverTimestamp, writeBatch,
+  getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, orderBy, onSnapshot, serverTimestamp, writeBatch, increment,
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 import { normalizeEmail, parseSecret, secretToHex, makeKey, secretCheck, keyPrefix } from "./license.js";
 
@@ -9,6 +9,8 @@ const ADMIN = "totoriverce@gmail.com";
 // 지금 앱에 들어간 비밀키의 확인값 (keygen.py check-value). 다른 비밀키로 만든 키는 앱에서 안 통한다.
 const EXPECTED_CHECK = "b29dd98c";
 const SITE = "https://notipet.sanghak.kr";
+// 키 메일 발송 Worker (비공개 저장소 mailer/). 구매자 이메일로 bae@sanghak.kr 명의의 메일을 보낸다.
+const MAILER = "https://notipet-mailer.totoriverce.workers.dev";
 
 const $ = (s) => document.querySelector(s);
 const auth = getAuth(app);
@@ -57,8 +59,19 @@ function mailBody(email, key) {
     `내려받기: ${SITE}/#download`,
   ].join("\n");
 }
-const mailto = (email, key) =>
-  `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("NotiPet 키 안내")}&body=${encodeURIComponent(mailBody(email, key))}`;
+
+/** 구매자에게 키 메일을 보내고 발송 기록을 남긴다 */
+async function sendKeyMail(email, key) {
+  const res = await fetch(`${MAILER}/send-key`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${await user.getIdToken()}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ email, key }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.ok) throw new Error(data.error || `메일을 보내지 못했어요 (${res.status})`);
+  await updateDoc(doc(db, "licenses", email), { mailedAt: serverTimestamp(), mailCount: increment(1) }).catch(() => {});
+  return data;
+}
 
 // ---------- 로그인 ----------
 const provider = new GoogleAuthProvider();
@@ -202,21 +215,43 @@ async function issue(rawEmail, memo, orderId) {
   return { email, key, existed: before.exists() };
 }
 
-function showResult({ email, key, existed }) {
+const MAIL_STATE = {
+  sending: '<span class="pill new">메일 보내는 중…</span>',
+  sent: '<span class="pill good">메일 발송 완료</span>',
+  failed: '<span class="pill bad">메일 발송 실패</span>',
+};
+
+function showResult({ email, key, existed }, mail = null) {
   const r = $("#issue-result");
   r.hidden = false;
   r.innerHTML = `
-    <div class="result-head">${existed ? "이미 발급한 이메일이에요. 키는 그대로예요." : "키를 만들었어요."}</div>
-    <dl><dt>이메일</dt><dd>${esc(email)}</dd><dt>키</dt><dd class="key">${esc(key)}</dd></dl>
-    <div class="actions">
+    <span class="pill ${existed ? "new" : "good"}">${existed ? "이미 발급됨 · 같은 키" : "발급 완료"}</span>
+    ${mail ? MAIL_STATE[mail.state] : ""}
+    <span class="r-email">${esc(email)}</span>
+    <code class="r-key">${esc(key)}</code>
+    <span class="actions">
       <button type="button" class="btn sm" data-copy="key">키 복사</button>
       <button type="button" class="btn sm" data-copy="both">이메일+키 복사</button>
       <button type="button" class="btn sm" data-copy="mail">안내 문구 복사</button>
-      <a class="btn sm primary" href="${mailto(email, key)}">안내 메일 쓰기</a>
-    </div>`;
+      <button type="button" class="btn sm primary" data-send ${mail?.state === "sending" ? "disabled" : ""}>${mail?.state === "sent" ? "메일 다시 보내기" : "메일 보내기"}</button>
+    </span>
+    ${mail?.state === "failed" ? `<span class="error r-error">${esc(mail.error)}</span>` : ""}`;
   r.querySelector('[data-copy="key"]').onclick = () => copy(key);
   r.querySelector('[data-copy="both"]').onclick = () => copy(`이메일: ${email}\n키: ${key}`);
   r.querySelector('[data-copy="mail"]').onclick = () => copy(mailBody(email, key), "안내 문구를 복사했어요");
+  r.querySelector("[data-send]").onclick = () => mailAndShow({ email, key, existed });
+}
+
+/** 결과를 보여 주면서 구매자에게 메일을 보낸다 (발급하면 자동으로 부른다) */
+async function mailAndShow(res) {
+  showResult(res, { state: "sending" });
+  try {
+    await sendKeyMail(res.email, res.key);
+    showResult(res, { state: "sent" });
+    toast(`${res.email} 로 키 메일을 보냈어요`);
+  } catch (err) {
+    showResult(res, { state: "failed", error: err?.message || String(err) });
+  }
 }
 
 $("#issue-form").addEventListener("submit", async (e) => {
@@ -225,8 +260,9 @@ $("#issue-form").addEventListener("submit", async (e) => {
   err.hidden = true;
   $("#issue-btn").disabled = true;
   try {
-    showResult(await issue($("#issue-email").value, $("#issue-memo").value.trim()));
+    const res = await issue($("#issue-email").value, $("#issue-memo").value.trim());
     $("#issue-form").reset();
+    await mailAndShow(res);
   } catch (e2) {
     err.hidden = false;
     err.innerHTML = e2?.code ? explain(e2) : esc(e2.message);
@@ -265,11 +301,9 @@ $("#orders-body").addEventListener("click", async (e) => {
   if (!o) return;
   btn.disabled = true;
   try {
-    const res = btn.dataset.act === "issue"
-      ? await issue(o.email, o.name ? `구매 신청 · ${o.name}` : "구매 신청", o.id)
-      : { email: o.email, key: o.key, existed: true };
     showTab("issue");
-    showResult(res);
+    if (btn.dataset.act === "issue") await mailAndShow(await issue(o.email, o.name ? `구매 신청 · ${o.name}` : "구매 신청", o.id));
+    else showResult({ email: o.email, key: o.key, existed: true });
   } catch (e2) {
     toast(e2?.message || String(e2));
   } finally {
@@ -291,12 +325,13 @@ function paintHistory() {
       <td class="key">${esc(l.key)}</td>
       <td class="remark">${esc(l.memo || "")}</td>
       <td>${l.revoked ? '<span class="pill bad">폐기</span>' : '<span class="pill good">사용 중</span>'}</td>
+      <td>${l.mailedAt ? `${fmt(l.mailedAt)}${l.mailCount > 1 ? ` · ${l.mailCount}회` : ""}` : '<span class="muted">안 보냄</span>'}</td>
       <td class="acts">
         <button type="button" class="btn sm" data-act="copy">복사</button>
-        <a class="btn sm" href="${mailto(l.email, l.key)}">메일</a>
+        <button type="button" class="btn sm" data-act="mail">메일 발송</button>
         <button type="button" class="btn sm ${l.revoked ? "" : "danger"}" data-act="revoke">${l.revoked ? "복구" : "폐기"}</button>
       </td>
-    </tr>`).join("") : `<tr><td colspan="6" class="empty">${licenses.length ? "찾는 키가 없어요" : "아직 발급한 키가 없어요"}</td></tr>`;
+    </tr>`).join("") : `<tr><td colspan="7" class="empty">${licenses.length ? "찾는 키가 없어요" : "아직 발급한 키가 없어요"}</td></tr>`;
 
   const revoked = licenses.filter((l) => l.revoked);
   $("#revoked").hidden = !revoked.length;
@@ -309,6 +344,14 @@ $("#history-body").addEventListener("click", async (e) => {
   const l = licenses.find((x) => x.id === btn.closest("tr").dataset.id);
   if (!l) return;
   if (btn.dataset.act === "copy") return copy(`이메일: ${l.email}\n키: ${l.key}`);
+  if (btn.dataset.act === "mail") {
+    if (!confirm(`${l.email} 로 키 메일을 보낼까요?`)) return;
+    btn.disabled = true;
+    try { await sendKeyMail(l.email, l.key); toast(`${l.email} 로 키 메일을 보냈어요`); }
+    catch (e2) { toast(e2?.message || String(e2)); }
+    finally { btn.disabled = false; }
+    return;
+  }
   if (!l.revoked && !confirm(`${l.email} 의 키를 폐기할까요?\n다음 앱 버전부터 이 키가 막혀요.`)) return;
   try {
     await updateDoc(doc(db, "licenses", l.id), { revoked: !l.revoked, updatedAt: serverTimestamp() });

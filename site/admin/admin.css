@@ -68,6 +68,8 @@ tr.revoked-row td.key { text-decoration: line-through; }
 .pill.good { color: var(--good); background: var(--good-bg); }
 .pill.bad { color: var(--bad); background: var(--bad-bg); }
 .pill.new { color: var(--new); background: var(--new-bg); }
+.muted { color: #9aa1b2; }
+.r-error { flex-basis: 100%; }
 
 .issue-form { display: grid; gap: 10px; max-width: 640px; margin-top: 10px; }
 .issue-form label { display: grid; gap: 3px; font-weight: 700; color: var(--navy); }
@@ -76,13 +78,17 @@ tr.revoked-row td.key { text-decoration: line-through; }
 .form-footer { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
 .form-footer .error { margin-right: auto; }
 
-.result { margin-top: 14px; max-width: 640px; padding: 12px 14px; border-radius: 12px; background: #f4f7ff; border: 1px solid #c7d5fb; }
-.result-head { font-weight: 800; color: var(--navy); }
-.result dl { display: grid; grid-template-columns: 56px 1fr; gap: 4px 8px; margin: 8px 0 10px; }
-.result dt { color: var(--muted); font-weight: 700; }
-.result dd { margin: 0; font-weight: 600; }
-.result dd.key { font-size: 15px; color: var(--navy); }
-.actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.toolbar .hint { margin-right: auto; }
+.toolbar:has(> .hint) h2 { margin-right: 0; }
+.issue-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.issue-row input { height: 30px; }
+.issue-row .f-email { flex: 0 1 320px; }
+.issue-row .f-memo { flex: 1 1 260px; }
+.issue-row .btn { height: 30px; }
+.result { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 10px; padding: 7px 10px; border-radius: 10px; background: #f4f7ff; border: 1px solid #c7d5fb; }
+.r-email { font-weight: 700; color: var(--navy); }
+.r-key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; font-weight: 600; color: var(--navy); background: #fff; border: 1px solid #d5dcec; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+.actions { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
 
 .revoked { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: var(--bad-bg); border: 1px solid #f5c2c2; }
 .revoked h3 { font-size: 14px; }
