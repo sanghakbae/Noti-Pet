@@ -23,6 +23,7 @@
   <header class="nav">
     <a class="brand" href="#top"><img src="img/icon.png" alt="" width="32" height="32">NotiPet</a>
     <nav class="nav-links">
+      <a href="#video">영상</a>
       <a href="#features">기능</a>
       <a href="#pets">펫</a>
       <a href="#install">설치</a>
@@ -64,6 +65,31 @@
         </div>
         <div class="dock" id="dock"></div>
         <p class="stage-tip">펫을 눌러 쓰다듬고, 말풍선을 눌러 보세요</p>
+      </div>
+    </section>
+
+    <!-- 홍보 영상 -->
+    <section class="section" id="video">
+      <h2 class="section-title">30초 영상으로 보기</h2>
+      <div class="video-split">
+        <div class="video-frame">
+          <video id="promo" src="video/notipet-promo.mp4?v=dev" poster="img/promo-poster.webp?v=dev" width="1080" height="1350"
+                 muted loop playsinline controls preload="metadata" aria-label="NotiPet 30초 홍보 영상"></video>
+          <button class="unmute" id="unmute" type="button">🔊 소리 켜기</button>
+        </div>
+        <div class="video-copy">
+          <ul class="checks">
+            <li>알림이 오면 펫이 <b>깜짝 뛰어올라 말풍선</b>으로 알려 줘요</li>
+            <li>말풍선을 누르면 <b>알림 보낸 앱이 바로</b> 열려요</li>
+            <li>메시지·카카오톡·슬랙·메일, <b>어떤 앱 알림이든</b></li>
+            <li><b>펫 15종</b> — 2.2에서 코알라·개구리·아기양·레서판다·아기공룡이 들어왔어요</li>
+            <li>크기·색조·채도를 <b>마음대로</b>, 펫마다 따로 기억해요</li>
+          </ul>
+          <div class="cta">
+            <a class="btn primary lg" href="#download">내려받기</a>
+            <a class="btn ghost lg" href="#buy">구매 신청</a>
+          </div>
+        </div>
       </div>
     </section>
 

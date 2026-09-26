@@ -453,3 +453,21 @@ buyForm.addEventListener("submit", async (e) => {
     say("보내지 못했어요. 잠시 뒤 다시 시도해 주세요.", "error");
   }
 });
+
+// ---------- 홍보 영상: 화면에 보일 때만 재생 (자동 재생은 음소거여야 허용된다) ----------
+const promo = $("#promo");
+const unmute = $("#unmute");
+if (promo) {
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) promo.play().catch(() => {});
+    else promo.pause();
+  }, { threshold: 0.4 }).observe(promo);
+  unmute.addEventListener("click", () => {
+    promo.muted = false;
+    promo.currentTime = 0;
+    promo.play().catch(() => {});
+    unmute.hidden = true;
+    track("promo_unmute", {});
+  });
+  promo.addEventListener("volumechange", () => { unmute.hidden = !promo.muted; });
+}
