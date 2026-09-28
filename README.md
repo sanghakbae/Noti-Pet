@@ -57,10 +57,12 @@
 
 | 버전 | 가격 | 바뀐 점 | 내려받기 |
 | :-- | :-- | :-- | :-- |
-| **2.3.0** (최신) | 🔑 유료 · 키 필요 | **CPU 사용량 크게 줄임** (약 55% → 8%) | [NotiPet-2.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.3.0/NotiPet-2.3.0.dmg) |
+| **2.4.0** (최신) | 🔑 유료 · 키 필요 | **자동 업데이트** · 새 버전이 나오면 펫이 알려 주고 눌러서 바로 업데이트 | [NotiPet-2.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.0/NotiPet-2.4.0.dmg) |
+| 2.3.0 | 🔑 유료 · 키 필요 | **CPU 사용량 크게 줄임** (약 55% → 8%) | [NotiPet-2.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.3.0/NotiPet-2.3.0.dmg) |
 | 2.2.0 | 🔑 유료 · 키 필요 | **새 펫 5종**: 코알라·개구리·아기양·레서판다·아기공룡 (펫 15종) | [NotiPet-2.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.2.0/NotiPet-2.2.0.dmg) |
 | 2.1.0 | 🔑 유료 · 키 필요 | 키가 구매자 이메일에 묶여요. 입력 창에서 이메일과 키를 함께 넣어요 | [NotiPet-2.1.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.1.0/NotiPet-2.1.0.dmg) |
-| **1.4.0** (무료 최신) | 🆓 무료 | **CPU 사용량 크게 줄임** (약 55% → 10% 안팎) | [NotiPet-1.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.4.0/NotiPet-1.4.0.dmg) |
+| **1.5.0** (무료 최신) | 🆓 무료 | **자동 업데이트** · 1점대 안에서만 올라가요 | [NotiPet-1.5.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.5.0/NotiPet-1.5.0.dmg) |
+| 1.4.0 | 🆓 무료 | **CPU 사용량 크게 줄임** (약 55% → 10% 안팎) | [NotiPet-1.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.4.0/NotiPet-1.4.0.dmg) |
 | 1.3.0 | 🆓 무료 | 토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요 | [NotiPet-1.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.3.0/NotiPet-1.3.0.dmg) |
 | 1.2.0 | 🆓 무료 | 첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색) | [NotiPet-1.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.2.0/NotiPet-1.2.0.dmg) |
 
@@ -164,7 +166,9 @@ macOS가 알림을 저장하는 데 몇 초 걸려서 배너보다 <b>약 5초</
 <summary><b>업데이트 · 삭제는 어떻게 해요?</b></summary>
 <br>
 
-- **업데이트:** 새 DMG로 응용 프로그램 폴더의 NotiPet을 덮어써요. 전체 디스크 접근 권한을 다시 켜야 할 수 있어요. 1점대에서 2점대로 올리면 이메일과 키를 한 번 넣어야 해요.
+- **자동 업데이트(2.4.0·1.5.0부터):** 새 버전이 나오면 펫이 말풍선으로 알려 줘요. 누르면 받아서 바꿔 끼우고 다시 켜요. 메뉴 🐾 › **업데이트 확인…**으로 직접 확인할 수도 있어요. 1점대는 1점대 안에서만 올라가요.
+- **그 전 버전에서 올릴 때:** 2.4.0·1.5.0은 한 번만 직접 덮어써 주세요. 서명이 바뀌어서 전체 디스크 접근 권한을 **한 번** 다시 켜야 해요. 그다음부터는 권한이 그대로 이어져요.
+- 1점대에서 2점대로 올리면 이메일과 키를 한 번 넣어야 해요.
 - **삭제:** 메뉴 › 종료 → NotiPet을 휴지통으로 → 전체 디스크 접근 권한 목록에서 **−** 로 빼기. 설정까지 지우려면 터미널에서 `defaults delete kr.sanghak.notipet`
 </details>
 
