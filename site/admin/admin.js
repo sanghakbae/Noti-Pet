@@ -60,6 +60,51 @@ function mailBody(email, key) {
   ].join("\n");
 }
 
+/** 라이선스 Worker 관리자 API (기기 목록·해제·폐기) */
+async function adminApi(path, body) {
+  const res = await fetch(`${MAILER}${path}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${await user.getIdToken()}`, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.ok) throw new Error(data.error || `서버 오류 (${res.status})`);
+  return data;
+}
+
+// 키(이메일)별 등록된 맥 — 2.4.1부터 키 하나에 최대 maxDevices대
+let devicesByEmail = {};
+let serverRevoked = new Set();
+let maxDevices = 4;
+let openDevices = null;   // 기기 목록을 펼친 이메일
+let devicesTimer = 0;
+function loadDevices() {
+  clearTimeout(devicesTimer);
+  devicesTimer = setTimeout(async () => {
+    if (!user || !licenses.length) return;
+    try {
+      const data = await adminApi("/admin/devices", { emails: licenses.map((l) => l.email) });
+      devicesByEmail = data.devices || {};
+      serverRevoked = new Set(data.revoked || []);
+      maxDevices = data.max || 4;
+      // Firestore에서 폐기한 키가 서버에 아직 없으면 맞춰 준다
+      for (const l of licenses) {
+        if (l.revoked && !serverRevoked.has(l.email)) await adminApi("/admin/revoke", { email: l.email, revoked: true }).then(() => serverRevoked.add(l.email));
+        if (!l.revoked && serverRevoked.has(l.email)) await adminApi("/admin/revoke", { email: l.email, revoked: false }).then(() => serverRevoked.delete(l.email));
+      }
+      paintHistory();
+    } catch (e) {
+      console.warn("기기 목록", e);
+    }
+  }, 150);
+}
+const ago = (sec) => {
+  const s = Math.max(0, Date.now() / 1000 - sec);
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))}분 전`;
+  if (s < 86400) return `${Math.round(s / 3600)}시간 전`;
+  return `${Math.round(s / 86400)}일 전`;
+};
+
 /** 구매자에게 키 메일을 보내고 발송 기록을 남긴다 */
 async function sendKeyMail(email, key) {
   const res = await fetch(`${MAILER}/send-key`, {
@@ -193,6 +238,7 @@ function watch() {
   unsubs.push(onSnapshot(query(collection(db, "licenses"), orderBy("issuedAt", "desc")), (snap) => {
     licenses = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     paintHistory();
+    loadDevices();
   }, fail));
 }
 
@@ -325,13 +371,20 @@ function paintHistory() {
       <td class="key">${esc(l.key)}</td>
       <td class="remark" title="${esc(l.memo || "")}">${esc(l.memo || "")}</td>
       <td>${l.revoked ? '<span class="pill bad">폐기</span>' : '<span class="pill good">사용 중</span>'}</td>
+      <td>${(() => {
+        const n = (devicesByEmail[l.email] || []).length;
+        return `<button type="button" class="btn sm ${n >= maxDevices ? "danger" : ""}" data-act="devices" title="등록된 맥 보기">${n}/${maxDevices}대</button>`;
+      })()}</td>
       <td>${l.mailedAt ? `${fmt(l.mailedAt)}${l.mailCount > 1 ? ` · ${l.mailCount}회` : ""}` : '<span class="muted">안 보냄</span>'}</td>
       <td class="acts">
         <button type="button" class="btn sm" data-act="copy">복사</button>
         <button type="button" class="btn sm" data-act="mail">메일 발송</button>
         <button type="button" class="btn sm ${l.revoked ? "" : "danger"}" data-act="revoke">${l.revoked ? "복구" : "폐기"}</button>
       </td>
-    </tr>`).join("") : `<tr><td colspan="7" class="empty">${licenses.length ? "찾는 키가 없어요" : "아직 발급한 키가 없어요"}</td></tr>`;
+    </tr>${openDevices === l.email ? `
+    <tr class="devices-row" data-id="${esc(l.id)}"><td colspan="8">${(devicesByEmail[l.email] || []).length
+      ? (devicesByEmail[l.email] || []).map((d) => `<span class="device">💻 <b>${esc(d.name || "이름 없음")}</b> <span class="muted">${esc(d.app_version || "")} · 마지막 ${ago(d.last_seen)}</span> <button type="button" class="btn sm" data-act="remove-device" data-device="${esc(d.device)}">해제</button></span>`).join("")
+      : '<span class="muted">아직 등록된 맥이 없어요 (2.4.1 이상에서 키를 넣으면 등록돼요)</span>'}</td></tr>` : ""}`).join("") : `<tr><td colspan="8" class="empty">${licenses.length ? "찾는 키가 없어요" : "아직 발급한 키가 없어요"}</td></tr>`;
 
   const revoked = licenses.filter((l) => l.revoked);
   $("#revoked").hidden = !revoked.length;
@@ -344,6 +397,22 @@ $("#history-body").addEventListener("click", async (e) => {
   const l = licenses.find((x) => x.id === btn.closest("tr").dataset.id);
   if (!l) return;
   if (btn.dataset.act === "copy") return copy(`이메일: ${l.email}\n키: ${l.key}`);
+  if (btn.dataset.act === "devices") {
+    openDevices = openDevices === l.email ? null : l.email;
+    return paintHistory();
+  }
+  if (btn.dataset.act === "remove-device") {
+    const d = (devicesByEmail[l.email] || []).find((x) => x.device === btn.dataset.device);
+    if (!confirm(`${l.email} 에서 「${d?.name || "이 맥"}」 등록을 해제할까요?\n자리가 비고, 그 맥은 다음 확인 때 자리가 있으면 다시 등록돼요.`)) return;
+    btn.disabled = true;
+    try {
+      const data = await adminApi("/admin/remove-device", { email: l.email, device: btn.dataset.device });
+      devicesByEmail[l.email] = data.devices || [];
+      paintHistory();
+      toast("등록을 해제했어요");
+    } catch (e2) { toast(e2?.message || String(e2)); btn.disabled = false; }
+    return;
+  }
   if (btn.dataset.act === "mail") {
     if (!confirm(`${l.email} 로 키 메일을 보낼까요?`)) return;
     btn.disabled = true;
@@ -352,9 +421,11 @@ $("#history-body").addEventListener("click", async (e) => {
     finally { btn.disabled = false; }
     return;
   }
-  if (!l.revoked && !confirm(`${l.email} 의 키를 폐기할까요?\n다음 앱 버전부터 이 키가 막혀요.`)) return;
+  if (!l.revoked && !confirm(`${l.email} 의 키를 폐기할까요?\n2.4.1 이상은 6시간 안에(다음에 켤 때는 바로) 모든 맥에서 막히고 기기 등록도 지워져요.`)) return;
   try {
+    await adminApi("/admin/revoke", { email: l.email, revoked: !l.revoked });
     await updateDoc(doc(db, "licenses", l.id), { revoked: !l.revoked, updatedAt: serverTimestamp() });
+    loadDevices();
   } catch (e2) {
     toast(e2?.message || String(e2));
   }

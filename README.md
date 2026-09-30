@@ -57,7 +57,8 @@
 
 | 버전 | 가격 | 바뀐 점 | 내려받기 |
 | :-- | :-- | :-- | :-- |
-| **2.4.0** (최신) | 🔑 유료 · 키 필요 | **자동 업데이트** · 새 버전이 나오면 펫이 알려 주고 눌러서 바로 업데이트 | [NotiPet-2.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.0/NotiPet-2.4.0.dmg) |
+| **2.4.1** (최신) | 🔑 유료 · 키 필요 | **키 하나로 맥 4대까지** · 처음 켤 때 이 맥을 등록해요 | [NotiPet-2.4.1.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.1/NotiPet-2.4.1.dmg) |
+| 2.4.0 | 🔑 유료 · 키 필요 | **자동 업데이트** · 새 버전이 나오면 펫이 알려 주고 눌러서 바로 업데이트 | [NotiPet-2.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.0/NotiPet-2.4.0.dmg) |
 | 2.3.0 | 🔑 유료 · 키 필요 | **CPU 사용량 크게 줄임** (약 55% → 8%) | [NotiPet-2.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.3.0/NotiPet-2.3.0.dmg) |
 | 2.2.0 | 🔑 유료 · 키 필요 | **새 펫 5종**: 코알라·개구리·아기양·레서판다·아기공룡 (펫 15종) | [NotiPet-2.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.2.0/NotiPet-2.2.0.dmg) |
 | 2.1.0 | 🔑 유료 · 키 필요 | 키가 구매자 이메일에 묶여요. 입력 창에서 이메일과 키를 함께 넣어요 | [NotiPet-2.1.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.1.0/NotiPet-2.1.0.dmg) |
@@ -160,6 +161,15 @@ macOS가 알림을 저장하는 데 몇 초 걸려서 배너보다 <b>약 5초</
 <summary><b>펫이 사라졌어요</b></summary>
 <br>
 모니터 연결이 바뀌면 다른 화면으로 갈 수 있어요. 메뉴바에 🐾가 있으면 실행 중이에요. 껐다 켜면 화면 가운데로 떨어지며 돌아와요.
+</details>
+
+<details>
+<summary><b>키 하나로 맥 몇 대에서 쓸 수 있어요?</b></summary>
+<br>
+
+- **맥 4대까지** 쓸 수 있어요(2.4.1부터). 키를 처음 넣은 맥은 인터넷으로 한 번 등록돼요.
+- 5번째 맥에서는 이미 등록된 맥 목록이 보여요. 쓰지 않는 맥에서 메뉴 🐾 › **이 맥 등록 해제**를 누르면 자리가 비어요.
+- 한 번 등록한 맥은 인터넷이 없어도 그대로 써요.
 </details>
 
 <details>

@@ -110,3 +110,7 @@ tr.revoked-row td.key { text-decoration: line-through; }
   .tabs { order: 3; width: 100%; overflow-x: auto; }
   #who { display: none; }
 }
+
+/* 발급 이력 › 등록된 맥 (2.4.1부터 키 하나에 최대 4대) */
+.devices-row td { background: var(--soft, #f6f8fe); white-space: normal; }
+.devices-row .device { display: inline-flex; align-items: center; gap: 6px; margin: 2px 14px 2px 0; }
