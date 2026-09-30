@@ -30,19 +30,19 @@ const preload = (id) => { const i = new Image(); i.src = `/img/pets/${id}-sheet.
 
 // 미리 보기 화면에 오는 알림들
 const APPS = EN ? [
-  { name: "Messages", c: "#34C759", title: "Mom", body: "Coming home for dinner?" },
-  { name: "WhatsApp", c: "#25D366", title: "Alex", body: "Lunch today? 🍜" },
-  { name: "Slack", c: "#611F69", title: "#design", body: "New mockups are up! Take a look" },
-  { name: "Mail", c: "#0A84FF", title: "Team lead", body: "Got your weekly report 👍" },
-  { name: "Calendar", c: "#FF3B30", title: "In 10 minutes", body: "Design review meeting" },
-  { name: "Reminders", c: "#FF9500", title: "Drink water", body: "Time for a glass 💧" },
+  { name: "Messages", c: "#34C759", title: "Mom", body: "Dinner tonight?" },
+  { name: "WhatsApp", c: "#25D366", title: "Alex", body: "Lunch? 🍜" },
+  { name: "Slack", c: "#611F69", title: "#design", body: "New mockups are up" },
+  { name: "Mail", c: "#0A84FF", title: "Team lead", body: "Got your report 👍" },
+  { name: "Calendar", c: "#FF3B30", title: "In 10 min", body: "Design review" },
+  { name: "Reminders", c: "#FF9500", title: "Water", body: "Time for a glass 💧" },
 ] : [
   { name: "메시지", c: "#34C759", title: "엄마", body: "저녁 먹으러 올 거지?" },
   { name: "카카오톡", c: "#F7D600", title: "민지", body: "점심 뭐 먹을래? 🍜" },
-  { name: "슬랙", c: "#611F69", title: "#디자인", body: "새 시안 올렸어요! 확인 부탁드려요" },
-  { name: "메일", c: "#0A84FF", title: "팀장님", body: "주간 보고서 잘 받았어요 👍" },
-  { name: "캘린더", c: "#FF3B30", title: "10분 후", body: "디자인 리뷰 회의" },
-  { name: "미리 알림", c: "#FF9500", title: "물 마시기", body: "한 컵 마실 시간이에요 💧" },
+  { name: "슬랙", c: "#611F69", title: "#디자인", body: "새 시안 올렸어요" },
+  { name: "메일", c: "#0A84FF", title: "팀장님", body: "보고서 잘 받았어요 👍" },
+  { name: "캘린더", c: "#FF3B30", title: "10분 후", body: "디자인 리뷰" },
+  { name: "미리 알림", c: "#FF9500", title: "물 마시기", body: "한 컵 마실 시간 💧" },
 ];
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -306,37 +306,43 @@ const REPO = "sanghakbae/Noti-Pet";
 const DL = (v) => `https://github.com/${REPO}/releases/download/v${v}/NotiPet-${v}.dmg`;
 // GitHub에 연결되지 않을 때 보여 줄 목록
 const FALLBACK = [
+  { v: "2.4.2", date: "2026-10-01", url: DL("2.4.2"), size: 1724094 },
   { v: "2.4.1", date: "2026-09-30", url: DL("2.4.1"), size: 1719101 },
   { v: "2.4.0", date: "2026-09-28", url: DL("2.4.0"), size: 1662700 },
   { v: "2.3.0", date: "2026-09-28", url: DL("2.3.0"), size: 1580917 },
   { v: "2.2.0", date: "2026-09-25", url: DL("2.2.0"), size: 1609260 },
   { v: "2.1.0", date: "2026-09-25", url: DL("2.1.0"), size: 1665460 },
+  { v: "1.5.1", date: "2026-10-01", url: DL("1.5.1"), size: 1627855 },
   { v: "1.5.0", date: "2026-09-28", url: DL("1.5.0"), size: 1619842 },
   { v: "1.4.0", date: "2026-09-28", url: DL("1.4.0"), size: 1675581 },
   { v: "1.3.0", date: "2026-09-24", url: DL("1.3.0"), size: 1618356 },
   { v: "1.2.0", date: "2026-09-24", url: DL("1.2.0"), size: 1632413 },
 ];
 const WHAT = {
-  "2.4.1": "키 하나로 맥 4대까지 — 처음 켤 때 이 맥을 등록해요(인터넷 필요)",
-  "2.4.0": "자동 업데이트 — 새 버전이 나오면 펫이 알려 주고, 누르면 바로 업데이트해요",
-  "2.3.0": "CPU 사용량을 크게 줄였어요 (약 55% → 8%)",
-  "2.2.0": "새 펫 5종: 코알라·개구리·아기양·레서판다·아기공룡 (2점대 전용)",
-  "2.1.0": "키가 구매자 이메일에 묶여요. 입력 창에서 이메일과 키를 함께 넣어요",
-  "1.5.0": "자동 업데이트 — 1점대 안에서만 올라가요",
-  "1.4.0": "CPU 사용량을 크게 줄였어요 (약 55% → 10% 안팎)",
-  "1.3.0": "토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요",
-  "1.2.0": "첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색)",
+  "2.4.2": "말풍선 가독성 · 업데이트 알림 반복",
+  "2.4.1": "키 하나로 맥 4대까지",
+  "2.4.0": "자동 업데이트",
+  "2.3.0": "CPU 사용량 55% → 8%",
+  "2.2.0": "새 펫 5종 (펫 15종)",
+  "2.1.0": "키를 구매자 이메일에 연결",
+  "1.5.1": "말풍선 가독성 · 업데이트 알림 반복",
+  "1.5.0": "자동 업데이트",
+  "1.4.0": "CPU 사용량 55% → 10%",
+  "1.3.0": "토끼 귀 잘림 수정",
+  "1.2.0": "첫 공개 · 펫 10종",
 };
 const WHAT_EN = {
-  "2.4.1": "One key works on up to 4 Macs — each Mac registers once on first launch (internet needed)",
-  "2.4.0": "Auto-update — the pet tells you about new versions; click to update",
-  "2.3.0": "Much lower CPU use (about 55% → 8%)",
-  "2.2.0": "5 new pets: koala, frog, lamb, red panda, baby dino (2.x only)",
-  "2.1.0": "Keys are tied to the buyer's email — enter both in the key window",
-  "1.5.0": "Auto-update — stays within 1.x",
-  "1.4.0": "Much lower CPU use (about 55% → 10%)",
-  "1.3.0": "Fixed bunny ears and chick feathers being clipped",
-  "1.2.0": "First release · 10 pets, pet settings (kind, size, color)",
+  "2.4.2": "Clearer bubbles · update reminders",
+  "2.4.1": "One key, up to 4 Macs",
+  "2.4.0": "Auto-update",
+  "2.3.0": "CPU use 55% → 8%",
+  "2.2.0": "5 new pets (15 total)",
+  "2.1.0": "Keys tied to buyer email",
+  "1.5.1": "Clearer bubbles · update reminders",
+  "1.5.0": "Auto-update",
+  "1.4.0": "CPU use 55% → 10%",
+  "1.3.0": "Fixed clipped bunny ears",
+  "1.2.0": "First release · 10 pets",
 };
 const isPaid = (v) => parseInt(v, 10) >= 2;
 const cmp = (a, b) => {
@@ -381,10 +387,8 @@ function showToast(html) {
 function onDownload(r, where) {
   track("notipet_download", { version: r.v, price: isPaid(r.v) ? "paid" : "free", where });
   showToast(isPaid(r.v)
-    ? T(`<b>NotiPet ${r.v}을 내려받는 중이에요</b>2.0부터는 키가 필요해요. <a href="#buy">구매 신청</a>에 이메일을 남겨 주세요.`,
-        `<b>Downloading NotiPet ${r.v}</b>Version 2.0 and later needs a key. Leave your email in <a href="#buy">Request a key</a>.`)
-    : T(`<b>NotiPet ${r.v}을 내려받는 중이에요</b>1점대는 키 없이 무료로 쓸 수 있어요.`,
-        `<b>Downloading NotiPet ${r.v}</b>Version 1.x is free — no key needed.`));
+    ? T(`<b>${r.v} 내려받는 중</b>2점대는 키가 필요해요 · <a href="#buy">구매 신청</a>`, `<b>Downloading ${r.v}</b>2.x needs a key · <a href="#buy">Request a key</a>`)
+    : T(`<b>${r.v} 내려받는 중</b>1점대는 키 없이 무료예요`, `<b>Downloading ${r.v}</b>1.x is free, no key needed`));
 }
 
 function renderDownloads(rows) {
@@ -402,7 +406,7 @@ function renderDownloads(rows) {
       <a class="btn ${paid ? "primary" : "ghost"}" href="${r.url}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>${T("내려받기", "Download")}</a>`;
     const what = row.querySelector(".dl-what");
-    what.textContent = r.what || (EN ? WHAT_EN : WHAT)[r.v] || "";
+    what.textContent = (EN ? WHAT_EN : WHAT)[r.v] || r.what || "";
     const small = document.createElement("small");
     small.textContent = `DMG · ${(r.size / 1048576).toFixed(1)}MB`;
     what.append(small);
@@ -443,8 +447,7 @@ buyForm.addEventListener("submit", async (e) => {
   if (fd.get("website")) return; // 사람 눈에 안 보이는 칸을 채운 건 봇
   const email = normalizeEmail(fd.get("email"));
   if (!email) {
-    say(T("이메일 주소를 확인해 주세요. 키는 이 이메일로 보내 드리고, 앱에서도 이 이메일을 넣어요.",
-          "Please check your email address. We'll send the key to it, and you'll enter the same email in the app."), "error");
+    say(T("이메일 주소를 확인해 주세요.", "Please check your email address."), "error");
     buyForm.email.focus();
     return;
   }
@@ -482,11 +485,11 @@ buyForm.addEventListener("submit", async (e) => {
 
   btn.disabled = false;
   if (orderId || mailed) {
-    say(T(`신청이 접수됐어요. 확인 후 ${email} 로 키를 보내 드릴게요.`, `Got it! We'll get back to you at ${email} with your key.`), "ok");
+    say(T(`접수됐어요. ${email} 로 키를 보내 드릴게요.`, `Got it. We'll email ${email}.`), "ok");
     buyForm.reset();
     track("purchase_request", {});
   } else {
-    say(T("보내지 못했어요. 잠시 뒤 다시 시도해 주세요.", "Couldn't send. Please try again in a moment."), "error");
+    say(T("보내지 못했어요. 다시 시도해 주세요.", "Couldn't send. Please try again."), "error");
   }
 });
 

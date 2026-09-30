@@ -57,12 +57,14 @@
 
 | 버전 | 가격 | 바뀐 점 | 내려받기 |
 | :-- | :-- | :-- | :-- |
-| **2.4.1** (최신) | 🔑 유료 · 키 필요 | **키 하나로 맥 4대까지** · 처음 켤 때 이 맥을 등록해요 | [NotiPet-2.4.1.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.1/NotiPet-2.4.1.dmg) |
+| **2.4.2** (최신) | 🔑 유료 · 키 필요 | **말풍선 가독성** · 업데이트 안내를 업데이트할 때까지 다시 | [NotiPet-2.4.2.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.2/NotiPet-2.4.2.dmg) |
+| 2.4.1 | 🔑 유료 · 키 필요 | **키 하나로 맥 4대까지** · 처음 켤 때 이 맥을 등록해요 | [NotiPet-2.4.1.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.1/NotiPet-2.4.1.dmg) |
 | 2.4.0 | 🔑 유료 · 키 필요 | **자동 업데이트** · 새 버전이 나오면 펫이 알려 주고 눌러서 바로 업데이트 | [NotiPet-2.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.0/NotiPet-2.4.0.dmg) |
 | 2.3.0 | 🔑 유료 · 키 필요 | **CPU 사용량 크게 줄임** (약 55% → 8%) | [NotiPet-2.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.3.0/NotiPet-2.3.0.dmg) |
 | 2.2.0 | 🔑 유료 · 키 필요 | **새 펫 5종**: 코알라·개구리·아기양·레서판다·아기공룡 (펫 15종) | [NotiPet-2.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.2.0/NotiPet-2.2.0.dmg) |
 | 2.1.0 | 🔑 유료 · 키 필요 | 키가 구매자 이메일에 묶여요. 입력 창에서 이메일과 키를 함께 넣어요 | [NotiPet-2.1.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.1.0/NotiPet-2.1.0.dmg) |
-| **1.5.0** (무료 최신) | 🆓 무료 | **자동 업데이트** · 1점대 안에서만 올라가요 | [NotiPet-1.5.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.5.0/NotiPet-1.5.0.dmg) |
+| **1.5.1** (무료 최신) | 🆓 무료 | **말풍선 가독성** · 업데이트 안내 반복 | [NotiPet-1.5.1.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.5.1/NotiPet-1.5.1.dmg) |
+| 1.5.0 | 🆓 무료 | **자동 업데이트** · 1점대 안에서만 올라가요 | [NotiPet-1.5.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.5.0/NotiPet-1.5.0.dmg) |
 | 1.4.0 | 🆓 무료 | **CPU 사용량 크게 줄임** (약 55% → 10% 안팎) | [NotiPet-1.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.4.0/NotiPet-1.4.0.dmg) |
 | 1.3.0 | 🆓 무료 | 토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요 | [NotiPet-1.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.3.0/NotiPet-1.3.0.dmg) |
 | 1.2.0 | 🆓 무료 | 첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색) | [NotiPet-1.2.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v1.2.0/NotiPet-1.2.0.dmg) |
