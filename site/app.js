@@ -306,6 +306,7 @@ const REPO = "sanghakbae/Noti-Pet";
 const DL = (v) => `https://github.com/${REPO}/releases/download/v${v}/NotiPet-${v}.dmg`;
 // GitHub에 연결되지 않을 때 보여 줄 목록
 const FALLBACK = [
+  { v: "2.4.3", date: "2026-10-01", url: DL("2.4.3"), size: 1751425 },
   { v: "2.4.2", date: "2026-10-01", url: DL("2.4.2"), size: 1724094 },
   { v: "2.4.1", date: "2026-09-30", url: DL("2.4.1"), size: 1719101 },
   { v: "2.4.0", date: "2026-09-28", url: DL("2.4.0"), size: 1662700 },
@@ -319,6 +320,7 @@ const FALLBACK = [
   { v: "1.2.0", date: "2026-09-24", url: DL("1.2.0"), size: 1632413 },
 ];
 const WHAT = {
+  "2.4.3": "알림 올 때 네온 춤",
   "2.4.2": "말풍선 가독성 · 업데이트 알림 반복",
   "2.4.1": "키 하나로 맥 4대까지",
   "2.4.0": "자동 업데이트",
@@ -332,6 +334,7 @@ const WHAT = {
   "1.2.0": "첫 공개 · 펫 10종",
 };
 const WHAT_EN = {
+  "2.4.3": "Neon dance on new alerts",
   "2.4.2": "Clearer bubbles · update reminders",
   "2.4.1": "One key, up to 4 Macs",
   "2.4.0": "Auto-update",

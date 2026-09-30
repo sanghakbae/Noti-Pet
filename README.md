@@ -57,7 +57,8 @@
 
 | 버전 | 가격 | 바뀐 점 | 내려받기 |
 | :-- | :-- | :-- | :-- |
-| **2.4.2** (최신) | 🔑 유료 · 키 필요 | **말풍선 가독성** · 업데이트 안내를 업데이트할 때까지 다시 | [NotiPet-2.4.2.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.2/NotiPet-2.4.2.dmg) |
+| **2.4.3** (최신) | 🔑 유료 · 키 필요 | **알림 올 때 네온 춤** · 앱 두 번 실행 막기 | [NotiPet-2.4.3.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.3/NotiPet-2.4.3.dmg) |
+| 2.4.2 | 🔑 유료 · 키 필요 | **말풍선 가독성** · 업데이트 안내를 업데이트할 때까지 다시 | [NotiPet-2.4.2.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.2/NotiPet-2.4.2.dmg) |
 | 2.4.1 | 🔑 유료 · 키 필요 | **키 하나로 맥 4대까지** · 처음 켤 때 이 맥을 등록해요 | [NotiPet-2.4.1.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.1/NotiPet-2.4.1.dmg) |
 | 2.4.0 | 🔑 유료 · 키 필요 | **자동 업데이트** · 새 버전이 나오면 펫이 알려 주고 눌러서 바로 업데이트 | [NotiPet-2.4.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.4.0/NotiPet-2.4.0.dmg) |
 | 2.3.0 | 🔑 유료 · 키 필요 | **CPU 사용량 크게 줄임** (약 55% → 8%) | [NotiPet-2.3.0.dmg](https://github.com/sanghakbae/Noti-Pet/releases/download/v2.3.0/NotiPet-2.3.0.dmg) |
