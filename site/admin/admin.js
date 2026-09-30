@@ -56,8 +56,20 @@ function mailBody(email, key) {
     "안녕하세요, NotiPet을 구매해 주셔서 감사합니다 🐾", "",
     `이메일: ${email}`, `키: ${key}`, "",
     "NotiPet을 처음 열면 뜨는 키 입력 창에 위 이메일과 키를 그대로 넣어 주세요.",
+    "키 하나로 맥 4대까지 쓸 수 있어요.", "",
     `내려받기: ${SITE}/#download`,
+    `설치 방법: ${SITE}/#install`, "",
+    "궁금한 점은 이 메일에 답장해 주세요.",
+    "NotiPet · @baedorphin",
   ].join("\n");
+}
+
+/** 기본 메일 앱에 받는 사람·제목·본문을 채워서 연다. 보내기는 관리자가 누른다(API 키 필요 없음). */
+function openMailApp(email, key) {
+  const subject = "NotiPet 키를 보내 드려요 🐾";
+  location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody(email, key))}`;
+  updateDoc(doc(db, "licenses", email), { mailedAt: serverTimestamp(), mailCount: increment(1), mailVia: "app" }).catch(() => {});
+  toast("메일 앱을 열었어요. 내용을 확인하고 보내기를 눌러 주세요");
 }
 
 /** 라이선스 Worker 관리자 API (기기 목록·해제·폐기) */
@@ -279,13 +291,15 @@ function showResult({ email, key, existed }, mail = null) {
       <button type="button" class="btn sm" data-copy="key">키 복사</button>
       <button type="button" class="btn sm" data-copy="both">이메일+키 복사</button>
       <button type="button" class="btn sm" data-copy="mail">안내 문구 복사</button>
-      <button type="button" class="btn sm primary" data-send ${mail?.state === "sending" ? "disabled" : ""}>${mail?.state === "sent" ? "메일 다시 보내기" : "메일 보내기"}</button>
+      <button type="button" class="btn sm ${mail?.state === "failed" ? "primary" : ""}" data-mailapp>메일 앱으로 보내기</button>
+      <button type="button" class="btn sm ${mail?.state === "failed" ? "" : "primary"}" data-send ${mail?.state === "sending" ? "disabled" : ""}>${mail?.state === "sent" ? "메일 다시 보내기" : "메일 보내기"}</button>
     </span>
-    ${mail?.state === "failed" ? `<span class="error r-error">${esc(mail.error)}</span>` : ""}`;
+    ${mail?.state === "failed" ? `<span class="error r-error">자동 발송이 안 됐어요 — 「메일 앱으로 보내기」를 눌러 보내 주세요. (${esc(mail.error)})</span>` : ""}`;
   r.querySelector('[data-copy="key"]').onclick = () => copy(key);
   r.querySelector('[data-copy="both"]').onclick = () => copy(`이메일: ${email}\n키: ${key}`);
   r.querySelector('[data-copy="mail"]').onclick = () => copy(mailBody(email, key), "안내 문구를 복사했어요");
   r.querySelector("[data-send]").onclick = () => mailAndShow({ email, key, existed });
+  r.querySelector("[data-mailapp]").onclick = () => openMailApp(email, key);
 }
 
 /** 결과를 보여 주면서 구매자에게 메일을 보낸다 (발급하면 자동으로 부른다) */
@@ -375,9 +389,10 @@ function paintHistory() {
         const n = (devicesByEmail[l.email] || []).length;
         return `<button type="button" class="btn sm ${n >= maxDevices ? "danger" : ""}" data-act="devices" title="등록된 맥 보기">${n}/${maxDevices}대</button>`;
       })()}</td>
-      <td>${l.mailedAt ? `${fmt(l.mailedAt)}${l.mailCount > 1 ? ` · ${l.mailCount}회` : ""}` : '<span class="muted">안 보냄</span>'}</td>
+      <td>${l.mailedAt ? `${fmt(l.mailedAt)}${l.mailCount > 1 ? ` · ${l.mailCount}회` : ""}${l.mailVia === "app" ? " · 메일 앱" : ""}` : '<span class="muted">안 보냄</span>'}</td>
       <td class="acts">
         <button type="button" class="btn sm" data-act="copy">복사</button>
+        <button type="button" class="btn sm" data-act="mailapp">메일 앱</button>
         <button type="button" class="btn sm" data-act="mail">메일 발송</button>
         <button type="button" class="btn sm ${l.revoked ? "" : "danger"}" data-act="revoke">${l.revoked ? "복구" : "폐기"}</button>
       </td>
@@ -397,6 +412,7 @@ $("#history-body").addEventListener("click", async (e) => {
   const l = licenses.find((x) => x.id === btn.closest("tr").dataset.id);
   if (!l) return;
   if (btn.dataset.act === "copy") return copy(`이메일: ${l.email}\n키: ${l.key}`);
+  if (btn.dataset.act === "mailapp") return openMailApp(l.email, l.key);
   if (btn.dataset.act === "devices") {
     openDevices = openDevices === l.email ? null : l.email;
     return paintHistory();
@@ -417,7 +433,7 @@ $("#history-body").addEventListener("click", async (e) => {
     if (!confirm(`${l.email} 로 키 메일을 보낼까요?`)) return;
     btn.disabled = true;
     try { await sendKeyMail(l.email, l.key); toast(`${l.email} 로 키 메일을 보냈어요`); }
-    catch (e2) { toast(e2?.message || String(e2)); }
+    catch (e2) { toast("자동 발송이 안 됐어요. 「메일 앱」 버튼으로 보내 주세요"); }
     finally { btn.disabled = false; }
     return;
   }
