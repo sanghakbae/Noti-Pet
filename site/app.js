@@ -2,6 +2,9 @@ import { app, SDK, isLocal } from "./firebase.js?v=dev";
 import { normalizeEmail } from "./admin/license.js?v=dev";
 
 const $ = (s, el = document) => el.querySelector(s);
+// 한국어 페이지(/)와 영어 페이지(/en/)가 같은 스크립트를 쓴다
+const EN = document.documentElement.lang === "en";
+const T = (ko, en) => (EN ? en : ko);
 
 // ---------- 통계 (배포 주소에서만) ----------
 let track = () => {};
@@ -17,16 +20,23 @@ if (!isLocal) {
 // 시트 한 장에 31프레임: 걷기 0~11, 점프 12, 착지 13, 기쁨 14~21, 말하기 22~29, 잠 30
 const F = { walk: 0, air: 12, land: 13, happy: 14, talk: 22, sleep: 30 };
 const PETS = [
-  ["cat", "고양이"], ["dog", "강아지"], ["bunny", "토끼"], ["chick", "병아리"], ["panda", "판다"],
-  ["bear", "곰돌이"], ["fox", "여우"], ["penguin", "펭귄"], ["hamster", "햄스터"], ["pig", "아기돼지"],
+  ["cat", T("고양이", "Cat")], ["dog", T("강아지", "Puppy")], ["bunny", T("토끼", "Bunny")], ["chick", T("병아리", "Chick")], ["panda", T("판다", "Panda")],
+  ["bear", T("곰돌이", "Bear")], ["fox", T("여우", "Fox")], ["penguin", T("펭귄", "Penguin")], ["hamster", T("햄스터", "Hamster")], ["pig", T("아기돼지", "Piglet")],
   // 2.2.0에서 추가 (2점대 전용)
-  ["koala", "코알라", true], ["frog", "개구리", true], ["sheep", "아기양", true], ["redPanda", "레서판다", true], ["dino", "아기공룡", true],
+  ["koala", T("코알라", "Koala"), true], ["frog", T("개구리", "Frog"), true], ["sheep", T("아기양", "Lamb"), true], ["redPanda", T("레서판다", "Red panda"), true], ["dino", T("아기공룡", "Baby dino"), true],
 ];
-const sheet = (id) => `url(img/pets/${id}-sheet.webp)`;
-const preload = (id) => { const i = new Image(); i.src = `img/pets/${id}-sheet.webp`; };
+const sheet = (id) => `url(/img/pets/${id}-sheet.webp)`;
+const preload = (id) => { const i = new Image(); i.src = `/img/pets/${id}-sheet.webp`; };
 
 // 미리 보기 화면에 오는 알림들
-const APPS = [
+const APPS = EN ? [
+  { name: "Messages", c: "#34C759", title: "Mom", body: "Coming home for dinner?" },
+  { name: "WhatsApp", c: "#25D366", title: "Alex", body: "Lunch today? 🍜" },
+  { name: "Slack", c: "#611F69", title: "#design", body: "New mockups are up! Take a look" },
+  { name: "Mail", c: "#0A84FF", title: "Team lead", body: "Got your weekly report 👍" },
+  { name: "Calendar", c: "#FF3B30", title: "In 10 minutes", body: "Design review meeting" },
+  { name: "Reminders", c: "#FF9500", title: "Drink water", body: "Time for a glass 💧" },
+] : [
   { name: "메시지", c: "#34C759", title: "엄마", body: "저녁 먹으러 올 거지?" },
   { name: "카카오톡", c: "#F7D600", title: "민지", body: "점심 뭐 먹을래? 🍜" },
   { name: "슬랙", c: "#611F69", title: "#디자인", body: "새 시안 올렸어요! 확인 부탁드려요" },
@@ -116,7 +126,7 @@ function showBubble(a) {
   b.style.bottom = `${bottom + size * 0.92}px`;
   b.style.setProperty("--c", a.c);
   b.style.setProperty("--t", "5s");
-  b.innerHTML = `<div class="top"><i></i>${a.name}<time>방금</time></div><b></b><p></p><div class="bar"></div><button class="x" type="button" aria-label="닫기">×</button>`;
+  b.innerHTML = `<div class="top"><i></i>${a.name}<time>${T("방금", "now")}</time></div><b></b><p></p><div class="bar"></div><button class="x" type="button" aria-label="${T("닫기", "Close")}">×</button>`;
   b.querySelector("b").textContent = a.title;
   b.querySelector("p").textContent = a.body;
   const arm = (ms) => { clearTimeout(b._timer); b._timer = setTimeout(closeBubble, ms); };
@@ -219,9 +229,11 @@ requestAnimationFrame(tick);
 const clockEl = $("#clock");
 function paintClock() {
   const d = new Date();
-  const day = "일월화수목금토"[d.getDay()];
   const h = d.getHours();
-  clockEl.textContent = `(${day}) ${h < 12 ? "오전" : "오후"} ${h % 12 || 12}:${String(d.getMinutes()).padStart(2, "0")}`;
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  clockEl.textContent = EN
+    ? `${"SunMonTueWedThuFriSat".substr(d.getDay() * 3, 3)} ${h % 12 || 12}:${mm} ${h < 12 ? "AM" : "PM"}`
+    : `(${"일월화수목금토"[d.getDay()]}) ${h < 12 ? "오전" : "오후"} ${h % 12 || 12}:${mm}`;
 }
 paintClock();
 setInterval(paintClock, 20000);
@@ -233,9 +245,9 @@ PETS.forEach(([id, name, isNew]) => {
   btn.type = "button";
   btn.className = "pet-card";
   btn.setAttribute("aria-pressed", String(id === pet.id));
-  btn.innerHTML = `<div class="sprite"></div><b>${name}</b>${isNew ? '<span class="new-badge">NEW · 2점대</span>' : ""}`;
+  btn.innerHTML = `<div class="sprite"></div><b>${name}</b>${isNew ? `<span class="new-badge">${T("NEW · 2점대", "NEW · 2.x")}</span>` : ""}`;
   const sp = btn.firstElementChild;
-  sp.style.backgroundImage = `url(img/pets/${id}.webp)`;
+  sp.style.backgroundImage = `url(/img/pets/${id}.webp)`;
   sp.style.backgroundSize = "100% 100%";
   let timer = null;
   btn.addEventListener("mouseenter", () => {
@@ -249,7 +261,7 @@ PETS.forEach(([id, name, isNew]) => {
   });
   btn.addEventListener("mouseleave", () => {
     clearInterval(timer);
-    sp.style.backgroundImage = `url(img/pets/${id}.webp)`;
+    sp.style.backgroundImage = `url(/img/pets/${id}.webp)`;
     sp.style.backgroundSize = "100% 100%";
     sp.style.backgroundPosition = "0 0";
   });
@@ -315,6 +327,17 @@ const WHAT = {
   "1.3.0": "토끼 귀·병아리 깃털 끝이 잘려 보이던 문제를 고쳤어요",
   "1.2.0": "첫 공개 · 펫 10종, 펫 설정 창(종류·크기·색)",
 };
+const WHAT_EN = {
+  "2.4.1": "One key works on up to 4 Macs — each Mac registers once on first launch (internet needed)",
+  "2.4.0": "Auto-update — the pet tells you about new versions; click to update",
+  "2.3.0": "Much lower CPU use (about 55% → 8%)",
+  "2.2.0": "5 new pets: koala, frog, lamb, red panda, baby dino (2.x only)",
+  "2.1.0": "Keys are tied to the buyer's email — enter both in the key window",
+  "1.5.0": "Auto-update — stays within 1.x",
+  "1.4.0": "Much lower CPU use (about 55% → 10%)",
+  "1.3.0": "Fixed bunny ears and chick feathers being clipped",
+  "1.2.0": "First release · 10 pets, pet settings (kind, size, color)",
+};
 const isPaid = (v) => parseInt(v, 10) >= 2;
 const cmp = (a, b) => {
   const x = a.split(".").map(Number), y = b.split(".").map(Number);
@@ -336,7 +359,7 @@ async function loadReleases() {
         const dmg = r.assets.find((a) => a.name.endsWith(".dmg"));
         if (!dmg) return null;
         const v = r.tag_name.replace(/^v/, "");
-        return { v, date: r.published_at.slice(0, 10), url: dmg.browser_download_url, size: dmg.size, what: whatFrom(r.body, v) };
+        return { v, date: r.published_at.slice(0, 10), url: dmg.browser_download_url, size: dmg.size, what: EN ? null : whatFrom(r.body, v) };
       })
       .filter(Boolean);
     return list.length ? list : FALLBACK;
@@ -358,8 +381,10 @@ function showToast(html) {
 function onDownload(r, where) {
   track("notipet_download", { version: r.v, price: isPaid(r.v) ? "paid" : "free", where });
   showToast(isPaid(r.v)
-    ? `<b>NotiPet ${r.v}을 내려받는 중이에요</b>2.0부터는 키가 필요해요. <a href="#buy">구매 신청</a>에 이메일을 남겨 주세요.`
-    : `<b>NotiPet ${r.v}을 내려받는 중이에요</b>1점대는 키 없이 무료로 쓸 수 있어요.`);
+    ? T(`<b>NotiPet ${r.v}을 내려받는 중이에요</b>2.0부터는 키가 필요해요. <a href="#buy">구매 신청</a>에 이메일을 남겨 주세요.`,
+        `<b>Downloading NotiPet ${r.v}</b>Version 2.0 and later needs a key. Leave your email in <a href="#buy">Request a key</a>.`)
+    : T(`<b>NotiPet ${r.v}을 내려받는 중이에요</b>1점대는 키 없이 무료로 쓸 수 있어요.`,
+        `<b>Downloading NotiPet ${r.v}</b>Version 1.x is free — no key needed.`));
 }
 
 function renderDownloads(rows) {
@@ -372,12 +397,12 @@ function renderDownloads(rows) {
     row.className = "dl-row" + (i === 0 ? " latest" : "");
     row.innerHTML = `
       <div class="dl-ver">${r.v}<small>${r.date}</small></div>
-      <div><span class="tag ${paid ? "paid" : "free"}">${paid ? "유료 · 키 필요" : "무료"}</span>${i === 0 ? '<span class="tag new">최신</span>' : ""}</div>
+      <div><span class="tag ${paid ? "paid" : "free"}">${paid ? T("유료 · 키 필요", "Paid · key needed") : T("무료", "Free")}</span>${i === 0 ? `<span class="tag new">${T("최신", "Latest")}</span>` : ""}</div>
       <div class="dl-what"></div>
       <a class="btn ${paid ? "primary" : "ghost"}" href="${r.url}">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>내려받기</a>`;
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>${T("내려받기", "Download")}</a>`;
     const what = row.querySelector(".dl-what");
-    what.textContent = r.what || WHAT[r.v] || "";
+    what.textContent = r.what || (EN ? WHAT_EN : WHAT)[r.v] || "";
     const small = document.createElement("small");
     small.textContent = `DMG · ${(r.size / 1048576).toFixed(1)}MB`;
     what.append(small);
@@ -418,7 +443,8 @@ buyForm.addEventListener("submit", async (e) => {
   if (fd.get("website")) return; // 사람 눈에 안 보이는 칸을 채운 건 봇
   const email = normalizeEmail(fd.get("email"));
   if (!email) {
-    say("이메일 주소를 확인해 주세요. 키는 이 이메일로 보내 드리고, 앱에서도 이 이메일을 넣어요.", "error");
+    say(T("이메일 주소를 확인해 주세요. 키는 이 이메일로 보내 드리고, 앱에서도 이 이메일을 넣어요.",
+          "Please check your email address. We'll send the key to it, and you'll enter the same email in the app."), "error");
     buyForm.email.focus();
     return;
   }
@@ -426,7 +452,7 @@ buyForm.addEventListener("submit", async (e) => {
   const memo = String(fd.get("memo") || "").trim().slice(0, 1000);
   const btn = $("#buy-btn");
   btn.disabled = true;
-  say("보내는 중…");
+  say(T("보내는 중…", "Sending…"));
 
   let orderId = "";
   try {
@@ -441,7 +467,7 @@ buyForm.addEventListener("submit", async (e) => {
   let mailed = false;
   try {
     const text = [
-      `${isLocal ? "[개발 서버 테스트] " : ""}NotiPet 구매 신청이 들어왔어요.`, "",
+      `${isLocal ? "[개발 서버 테스트] " : ""}${EN ? "[영문 사이트] " : ""}NotiPet 구매 신청이 들어왔어요.`, "",
       `이메일: ${email}`, `이름: ${name || "-"}`, `메모: ${memo || "-"}`,
       `신청 시각: ${kst()}`, `신청 번호: ${orderId || "(저장 실패 — 이 메일로 처리해 주세요)"}`, "",
       "키 발급: https://notipet.sanghak.kr/admin/",
@@ -456,11 +482,11 @@ buyForm.addEventListener("submit", async (e) => {
 
   btn.disabled = false;
   if (orderId || mailed) {
-    say(`신청이 접수됐어요. 확인 후 ${email} 로 키를 보내 드릴게요.`, "ok");
+    say(T(`신청이 접수됐어요. 확인 후 ${email} 로 키를 보내 드릴게요.`, `Got it! We'll get back to you at ${email} with your key.`), "ok");
     buyForm.reset();
     track("purchase_request", {});
   } else {
-    say("보내지 못했어요. 잠시 뒤 다시 시도해 주세요.", "error");
+    say(T("보내지 못했어요. 잠시 뒤 다시 시도해 주세요.", "Couldn't send. Please try again in a moment."), "error");
   }
 });
 

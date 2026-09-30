@@ -67,6 +67,9 @@ p, li, summary { text-wrap: pretty; }
 .nav-links { display: flex; gap: 18px; margin-left: auto; }
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
 .nav-links a:hover { color: var(--navy); }
+/* 한국어 ⇄ 영어 */
+.lang-switch { display: inline-flex; align-items: center; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.lang-switch:hover { border-color: var(--blue, #5c84f6); }
 
 main { width: 100%; padding: 0 var(--gutter); }
 
@@ -300,7 +303,7 @@ main { width: 100%; padding: 0 var(--gutter); }
 }
 @media (max-width: 640px) {
   .nav-links { display: none; }
-  .nav .btn { margin-left: auto; }
+  .lang-switch { margin-left: auto; }
   .stage { height: 380px; --pet-base: 88px; }
   .bubble { width: 210px; }
   .price-notes { grid-template-columns: 1fr; }

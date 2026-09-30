@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NotiPet — a cute pet that reads your Mac notifications</title>
+  <meta name="description" content="A cute pet runs along the bottom of your Mac screen and pops up every notification in a speech bubble. 15 pets, adjustable size and color, click a bubble to open the app.">
+  <meta name="theme-color" content="#5C84F6">
+  <script src="/lang.js?v=dev"></script>
+  <link rel="alternate" hreflang="ko" href="https://notipet.sanghak.kr/">
+  <link rel="alternate" hreflang="en" href="https://notipet.sanghak.kr/en/">
+  <link rel="alternate" hreflang="x-default" href="https://notipet.sanghak.kr/en/">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NotiPet — a cute pet that reads your Mac notifications">
+  <meta property="og:description" content="It wanders along the bottom of your screen and jumps up to tell you whenever a notification arrives.">
+  <meta property="og:image" content="https://notipet.sanghak.kr/img/og.png">
+  <meta property="og:url" content="https://notipet.sanghak.kr/en/">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="/style.css?v=dev">
+  <script type="module" src="/app.js?v=dev"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top"><img src="/img/icon.png" alt="" width="32" height="32">NotiPet</a>
+    <nav class="nav-links">
+      <a href="#video">Video</a>
+      <a href="#features">Features</a>
+      <a href="#pets">Pets</a>
+      <a href="#install">Install</a>
+      <a href="#download">Download</a>
+      <a href="#buy">Buy</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="lang-switch" href="/" data-set-lang="ko" hreflang="ko" lang="ko" title="한국어">한국어</a>
+    <a class="btn primary sm" href="#download">Download</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span> macOS menu bar app</p>
+        <h1>A <em>cute pet</em> tells you about every notification on your Mac</h1>
+        <p class="lead">It wanders along the bottom of your screen, and when a notification arrives it jumps up and shows it in a speech bubble. Click the bubble to open the app that sent it.</p>
+        <div class="cta">
+          <a class="btn primary lg" id="cta-paid" href="#download" data-track="hero_paid">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>
+            <span>Download NotiPet <b data-latest-paid>2</b></span>
+          </a>
+          <a class="btn ghost lg" id="cta-free" href="#download" data-track="hero_free">Get free <b data-latest-free>1.5.0</b></a>
+        </div>
+        <ul class="chips">
+          <li>macOS 13 or later</li>
+          <li>Apple silicon · Intel</li>
+          <li>15 pets</li>
+          <li class="paid">2.0+ is paid · key needed</li>
+          <li>App menus in Korean</li>
+        </ul>
+      </div>
+
+      <div class="stage" id="stage" aria-label="Preview of NotiPet in action">
+        <div class="menubar"><span></span><span class="paw">🐾</span><span class="clock" id="clock">9:41</span></div>
+        <div class="win win-a"><i></i><i></i><i></i><b></b><b></b><b></b></div>
+        <div class="win win-b"><i></i><i></i><i></i><b></b><b></b></div>
+        <div class="pet-layer" id="pet-layer">
+          <button class="pet" id="pet" aria-label="Pet the pet"></button>
+        </div>
+        <div class="dock" id="dock"></div>
+        <p class="stage-tip">Click the pet to pet it, and click a bubble</p>
+      </div>
+    </section>
+
+    <section class="section" id="video">
+      <h2 class="section-title">See it in 30 seconds</h2>
+      <div class="video-split">
+        <div class="video-frame">
+          <video id="promo" src="/video/notipet-promo.mp4?v=dev" poster="/img/promo-poster.webp?v=dev" width="1080" height="1350"
+                 muted loop playsinline controls preload="metadata" aria-label="NotiPet 30-second promo video"></video>
+          <button class="unmute" id="unmute" type="button">🔊 Sound on</button>
+        </div>
+        <div class="video-copy">
+          <ul class="checks">
+            <li>When a notification arrives, the pet <b>jumps up and shows it in a bubble</b></li>
+            <li>Click the bubble and <b>the app that sent it opens</b></li>
+            <li>Messages, Slack, Mail, WhatsApp — <b>any app's notifications</b></li>
+            <li><b>15 pets</b> — 2.2 added a koala, frog, lamb, red panda and baby dino</li>
+            <li>Size, hue and saturation <b>your way</b>, remembered per pet</li>
+          </ul>
+          <div class="cta">
+            <a class="btn primary lg" href="#download">Download</a>
+            <a class="btn ghost lg" href="#buy">Request a key</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <h2 class="section-title">What it does</h2>
+      <div class="cards four">
+        <article class="card">
+          <div class="art art-blue">
+            <div class="mini-noti" style="--c:#34C759">Messages</div>
+            <div class="mini-noti" style="--c:#E01E5A">Slack</div>
+            <div class="mini-noti" style="--c:#0A84FF">Mail</div>
+          </div>
+          <h3>Every app's notifications</h3>
+          <p>Messages, Slack, Mail… anything that goes through Notification Center</p>
+        </article>
+        <article class="card">
+          <div class="art art-peach trio">
+            <img src="/img/pets/koala.webp" alt="" loading="lazy">
+            <img src="/img/pets/cat.webp" alt="" loading="lazy">
+            <img src="/img/pets/dino.webp" alt="" loading="lazy">
+          </div>
+          <h3>15 pets <small>5 NEW in 2.2</small></h3>
+          <p>From a cat to a baby dino — pick the friend you like</p>
+        </article>
+        <article class="card">
+          <div class="art art-lilac trio tint">
+            <img src="/img/pets/cat.webp" alt="" loading="lazy" style="--h:150deg;--s:.8">
+            <img src="/img/pets/cat.webp" alt="" loading="lazy" style="--h:0deg;--s:1">
+            <img src="/img/pets/cat.webp" alt="" loading="lazy" style="--h:265deg;--s:.8">
+          </div>
+          <h3>Any size, any color</h3>
+          <p>Size 50–200%, hue, saturation and brightness — each pet remembers its own color</p>
+        </article>
+        <article class="card">
+          <div class="art art-mint">
+            <div class="mini-bubble"><span style="--c:#34C759">Messages</span><b>Mom: Coming for dinner…</b></div>
+            <svg class="cursor" viewBox="0 0 22 32" aria-hidden="true"><path d="M1 1v25l7-6 5 11 5-2-5-11h9z"/></svg>
+          </div>
+          <h3>Click to open the app</h3>
+          <p>Click a bubble and the app that sent it opens</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="pets">
+      <h2 class="section-title">Who will you live with?</h2>
+      <p class="section-lead">Click one and the pet above turns into that friend. <b>2.2 added a koala, frog, lamb, red panda and baby dino</b> (2.x only).</p>
+      <div class="tuner">
+        <label>Hue <input type="range" id="hue" min="0" max="360" value="0"></label>
+        <label>Saturation <input type="range" id="sat" min="0" max="200" value="100"></label>
+        <label>Size <input type="range" id="size" min="50" max="200" value="100"></label>
+        <button class="btn ghost sm" id="random-color" type="button">🎲 Random color</button>
+        <button class="btn ghost sm" id="reset-color" type="button">Reset</button>
+      </div>
+      <div class="pet-grid" id="pet-grid"></div>
+    </section>
+
+    <section class="section" id="play">
+      <h2 class="section-title">How to play</h2>
+      <div class="cards four">
+        <article class="card">
+          <div class="art art-pink"><img class="solo" src="/img/pets/cat-happy.webp" alt="" loading="lazy"><span class="float-heart">♥</span><span class="float-heart b">♥</span></div>
+          <h3>Pet it</h3><p>Click the pet</p>
+        </article>
+        <article class="card">
+          <div class="art art-blue"><img class="solo lift" src="/img/pets/dog.webp" alt="" loading="lazy"><svg class="cursor top" viewBox="0 0 22 32" aria-hidden="true"><path d="M1 1v25l7-6 5 11 5-2-5-11h9z"/></svg></div>
+          <h3>Pick it up</h3><p>Drag and drop · toss it · move it to another display</p>
+        </article>
+        <article class="card">
+          <div class="art art-sage"><div class="mini-bubble closeable"><span style="--c:#0A84FF">Mail</span><b>Your weekly report is in</b><i>×</i></div></div>
+          <h3>Dismiss a bubble</h3><p>× or right-click · hover to keep it open</p>
+        </article>
+        <article class="card">
+          <div class="art art-lilac"><img class="solo" src="/img/pets/bunny-sleep.webp" alt="" loading="lazy"><span class="zzz">z<b>z</b><i>Z</i></span></div>
+          <h3>Nap time</h3><p>When it's quiet, it dozes off</p>
+        </article>
+      </div>
+      <div class="split">
+        <img class="shot" src="/img/settings-framed.png" alt="NotiPet pet settings window (Korean)" loading="lazy" width="680" height="517">
+        <ul class="checks">
+          <li>From the <b>🐾 menu bar</b>: see recent notifications again, mute specific apps</li>
+          <li><b>Pause bubbles</b> — turn it on for meetings and presentations</li>
+          <li><b>Energy</b> relaxed · normal · lively, <b>bubble time</b> 4 · 7 · 12 seconds</li>
+          <li><b>Open at login</b> — your pet starts work when your Mac does</li>
+          <li>It only <b>reads</b> notifications. Their contents never leave your Mac</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <h2 class="section-title">Install in 4 steps</h2>
+      <ol class="steps">
+        <li class="card">
+          <div class="art art-blue step-art">
+            <img class="app-icon" src="/img/icon.png" alt="" loading="lazy"><span class="arrow">→</span><span class="folder">Applications</span>
+          </div>
+          <h3><span class="num">1</span>Download and move</h3>
+          <p>Open the DMG and drag NotiPet into the Applications folder</p>
+        </li>
+        <li class="card">
+          <div class="art art-blue step-art">
+            <div class="mock-dialog"><b>Security</b><span>“NotiPet” was blocked.</span><em>Open Anyway</em></div>
+          </div>
+          <h3><span class="num">2</span>Allow it once</h3>
+          <p>System Settings › Privacy &amp; Security, then [Open Anyway] near the bottom</p>
+        </li>
+        <li class="card">
+          <div class="art art-gold step-art">
+            <div class="mock-dialog key"><b>NotiPet key</b><span class="field">you@example.com</span><span class="field mono">XXXXXX-XXXXXX-…</span></div>
+          </div>
+          <h3><span class="num">3</span>Enter your key <small>2.0+</small></h3>
+          <p>Enter the email you got the key for and the 48-character key. Skip this on 1.x</p>
+        </li>
+        <li class="card">
+          <div class="art art-blue step-art">
+            <div class="mock-toggles"><b>Full Disk Access</b><span><img src="/img/icon.png" alt="">NotiPet<i class="on"></i></span><span><em></em>Terminal<i></i></span></div>
+          </div>
+          <h3><span class="num">4</span>Let it read notifications</h3>
+          <p>Click the pet's bubble and turn NotiPet on in Full Disk Access</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" id="download">
+      <h2 class="section-title">Download</h2>
+      <div class="price-notes">
+        <div class="note paid">
+          <b>🔑 2.0 and later is paid</b>
+          <p><b>15 pets</b> — 2.2 added 5 new ones (koala, frog, lamb, red panda, baby dino). It needs a key to run: leave your <b>email address</b> in <a href="#buy">Request a key</a> below and we'll send you a key for that email. One key works on up to 4 Macs.</p>
+        </div>
+        <div class="note free">
+          <b>🆓 1.x is free</b>
+          <p>Use it right away with no key. It includes <b>10 pets</b> and the settings window (size and color).</p>
+        </div>
+      </div>
+      <form class="buy" id="buy" novalidate>
+        <div class="buy-head"><b>🛒 Request a key</b><span>Leave your email and we'll get back to you there with your key. The key only works with that email.</span></div>
+        <div class="buy-fields">
+          <label><span>Email <b class="req">required</b></span><input type="email" name="email" required placeholder="you@example.com" autocomplete="email" maxlength="254"></label>
+          <label><span>Name</span><input type="text" name="name" placeholder="Your name" autocomplete="name" maxlength="100"></label>
+          <label class="grow"><span>Note</span><input type="text" name="memo" placeholder="Anything you'd like to ask" maxlength="1000"></label>
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit" id="buy-btn">Request a key</button>
+        </div>
+        <p class="buy-msg" id="buy-msg" role="status" hidden></p>
+      </form>
+      <div class="dl-list" id="dl-list" aria-live="polite">
+        <p class="dl-loading">Loading versions…</p>
+      </div>
+      <p class="dl-foot">Every version and its changes are also on <a href="https://github.com/sanghakbae/Noti-Pet/releases" target="_blank" rel="noopener">GitHub Releases</a>.</p>
+    </section>
+
+    <section class="section" id="faq">
+      <h2 class="section-title">FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>Is the app in English?</summary>
+          <p>Not yet — NotiPet's menus and windows are in Korean for now. The pet, bubbles and your notifications work the same in any language, and notification text is shown exactly as your apps send it.</p>
+        </details>
+        <details>
+          <summary>How do I get a key?</summary>
+          <p>Leave your email address in <a href="#buy">Request a key</a>. We'll email you a 48-character key for that address. Enter <b>the email and the key together</b> in the window that appears the first time you open the app — it won't ask again.</p>
+        </details>
+        <details>
+          <summary>Can I use it for free?</summary>
+          <p>Yes — version 1.x is free with no key (10 pets). Pick a 1.x version from the <a href="#download">download</a> list. The 5 pets added in 2.2 are only in 2.x.</p>
+        </details>
+        <details>
+          <summary>How many Macs can one key be used on?</summary>
+          <p><b>Up to 4 Macs</b> (from 2.4.1). A Mac registers once over the internet the first time you enter the key. On a 5th Mac you'll see the list of registered Macs — choose 🐾 menu › <b>Unregister this Mac</b> on one you no longer use to free a slot. Once registered, a Mac keeps working offline.</p>
+        </details>
+        <details>
+          <summary>The bubble shows up a little after the banner</summary>
+          <p>macOS takes a few seconds to store each notification, so bubbles appear about 5 seconds after the system banner. That's normal.</p>
+        </details>
+        <details>
+          <summary>I see both the system banner and the bubble</summary>
+          <p>The banner comes from macOS, so NotiPet can't turn it off. To see only the bubble, set each app's alert style to <b>None</b> in <b>System Settings › Notifications</b>, and keep <b>Show in Notification Center</b> on.</p>
+        </details>
+        <details>
+          <summary>Notifications from one app don't show up</summary>
+          <p>Check that the app's notifications are on in System Settings › Notifications, and that it isn't in the menu's muted apps. Pop-ups an app draws inside its own window aren't macOS notifications, so NotiPet can't see them.</p>
+        </details>
+        <details>
+          <summary>It still says it needs permission after I turned it on</summary>
+          <p>Remove NotiPet from the Full Disk Access list with −, add it back with +, then quit and reopen NotiPet. Do this once after updating from an older version, too.</p>
+        </details>
+        <details>
+          <summary>How do I update or uninstall?</summary>
+          <p><b>Update:</b> from 2.4.0 and 1.5.0 on, the pet tells you when a new version is out — click and it updates itself (1.x stays within 1.x). From older versions, replace the app with the new DMG once and turn Full Disk Access on again. Going from 1.x to 2.0+ needs a key once. <b>Uninstall:</b> menu › Quit → move NotiPet to the Trash → remove it from the Full Disk Access list with −. To also erase settings, run <code>defaults delete kr.sanghak.notipet</code> in Terminal.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="/img/icon.png" alt="" width="48" height="48">
+    <p><b>NotiPet</b> · macOS 13 or later · Apple silicon / Intel</p>
+    <p>Made by <a href="https://www.threads.com/@baedorphin" target="_blank" rel="noopener">@baedorphin</a> · Send feedback and bugs via <a href="https://github.com/sanghakbae/Noti-Pet/issues" target="_blank" rel="noopener">Issues</a> 🐾</p>
+  </footer>
+</body>
+</html>
